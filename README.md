@@ -6,9 +6,9 @@ A classic Java Web application based on the e-commerce domain model.
 
 If you have [Maven 3](http://maven.apache.org/) installed, you can clone the repository and run it locally with the maven Jetty plugin:
 
-    git clone https://github.com/seedstack/samples.git
-    cd samples/store-management
-    mvn install && cd web && mvn jetty:run
+    git clone https://github.com/seedstack/store-webapp-sample.git
+    cd store-webapp-sample
+    mvn clean install && (cd web && mvn jetty:run)
 
 Or you can just deploy it on your own Heroku account by clicking this button:
 
