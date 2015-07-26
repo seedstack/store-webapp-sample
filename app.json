@@ -1,6 +1,6 @@
 {
-  "name": "SeedStack store management",
-  "description": "Classic Java Web application based on the e-commerce domain model, demonstrating basic SeedStack features.",
-  "repository": "https://github.com/seedstack/samples",
+  "name": "SeedStack store management sample",
+  "description": "A classic Java Web application based on the e-commerce domain model.",
+  "repository": "https://github.com/seedstack/store-webapp-sample",
   "keywords": ["seedstack", "store", "web", "java", "application", "sample"]
 }
