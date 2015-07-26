@@ -9,6 +9,10 @@ If you have [Maven 3](http://maven.apache.org/) installed, you can clone the rep
     git clone https://github.com/seedstack/samples.git
     cd samples/store-management
     mvn install && cd web && mvn jetty:run
+
+Or you can just deploy it on your own Heroku account by clicking this button:
+
+[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
     
 # Copyright and license
 
