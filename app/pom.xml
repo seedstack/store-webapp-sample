@@ -29,7 +29,7 @@
         </dependency>
         <dependency>
             <groupId>org.seedstack.samples</groupId>
-            <artifactId>ecommerce-domain</artifactId>
+            <artifactId>ecommerce-domain-sample</artifactId>
             <version>${ecommerce-domain.version}</version>
         </dependency>
 
