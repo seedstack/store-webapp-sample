@@ -2,7 +2,7 @@
 
 Classic Java Web application based on the [e-commerce domain model](https://github.com/seedstack/ecommerce-domain-sample), demonstrating basic SeedStack features.
 
-# Try it
+# Run it
 
 If you have [Maven 3](http://maven.apache.org/) installed, you can clone the repository and run it locally with the maven Jetty plugin:
 
