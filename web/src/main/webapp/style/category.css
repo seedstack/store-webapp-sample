@@ -1,0 +1,35 @@
+/**
+ * Copyright (c) 2013-2015 by The SeedStack authors. All rights reserved.
+ *
+ * This file is part of SeedStack, An enterprise-oriented full development stack.
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ */
+.category-box {
+    cursor: pointer;
+    padding: 10px;
+    background: #fff;
+    color: #555;
+    margin-bottom: 1px;
+}
+
+.active-category {
+    border-left: 5px solid #3F6181;
+    background-color: #E6E6E6;
+}
+
+.product-category-header {
+    background-color: #ffffff;
+    padding: 28px;
+}
+
+.product-from-category {
+    margin-top: 55px;
+    background-color: #ffffff
+}
+
+.category-product-pager, .category-pager {
+    text-align: center;
+}

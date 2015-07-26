@@ -1,0 +1,126 @@
+<div data-seed-store-navbar></div>
+<div class="container-fluid content">
+    <div class="row">
+        <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="row">
+                <div class="search-product col-md-8 col-xs-10">
+                    <form  novalidate>
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                            <input data-ng-model="searchedCategory" data-ng-model-options="{debounce: 1000}" type="text" name="input" id="search-category-input" class="form-control input-xs" placeholder="find categories...">
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-3 col-xs-2">
+                    <button data-ng-click="createNewCategory()" class="btn btn-sm btn-default"><i class="fa fa-plus"></i> Add </button>
+                </div>
+            </div>
+            <div id="category-list">
+                <div data-ng-class="{'active-category': category === activeCategory}" class="category-box" data-ng-click="setActiveCategory(category)" data-ng-repeat="category in paginatedCategories">
+                    <div class="row">
+                        <div class="col-xs-2">
+                            <img class="img-responsive" data-ng-src="{{ category.urlImg }}" alt="category picture" />
+                        </div>
+                        <div class="col-md-9">
+                            <ul class="list-inline pull-right">
+                                <li><button data-ng-click="editCategory(category)" class="btn btn-default btn-xs"><i class="fa fa-pencil"></i> Edit </button></li>
+                            </ul>
+                            <div>
+                            <span>
+                                <strong> Id </strong> {{ category.id }}
+                            </span>
+                            </div>
+                            <div>
+                            <span>
+                                <strong> Name </strong> {{ category.name }}
+                            </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="category-pager store-pager" data-ng-show="paginatedCategories.length">
+                <div data-pagination data-ng-change="pageCategoryChanged()" data-ng-model="pagingCategories.currentPage" data-items-per-page="pagingCategories.pageSize" data-total-items="pagingCategories.totalServerItems" data-max-size="5" class="pagination-sm" data-boundary-links="true" data-rotate="false"></div>
+            </div>
+        </div>
+        <div class="product-from-category col-md-8 col-sm-6 col-xs-12">
+            <div class="product-category-header">
+                <h2>
+                    {{ activeCategory.name }}
+                    <span class="pull-right">
+                         <button data-ng-click="editCategory(activeCategory)" class="btn btn-default btn-sm"><i class="fa fa-pencil"></i> Edit </button>
+                         <button data-ng-click="deleteCategory(activeCategory)" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Delete </button>
+                    </span>
+                </h2>
+            </div>
+            <div id="products-list">
+                <div class="col-md-6 col-xs-12" data-ng-show="!paginatedProducts.length">
+                    <div class="product-box">
+                        <h3> No product found in this category </h3>
+                    </div>
+                </div>
+                <div class="col-md-6 col-xs-12" data-ng-repeat="product in paginatedProducts">
+                    <div class="product-box">
+                        <div class="row">
+                            <div class="col-xs-3" style="text-align: center">
+                                <img class="img-responsive" data-ng-src="{{ product.picture }}" alt="product" />
+                            </div>
+                            <div class="col-md-9">
+                                <div>
+                        <span>
+                            <strong> Designation </strong> {{ product.designation }}
+                        </span>
+                                </div>
+                                <div>
+                        <span>
+                            <strong> Price </strong> {{ product.price }}
+                        </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="store-pager category-product-pager" data-ng-show="paginatedProducts.length">
+            <div data-pagination data-ng-model="pagingProducts.currentPage" data-items-per-page="pagingProducts.pageSize" data-total-items="pagingProducts.totalServerItems" data-ng-change="pageProductChanged()" data-max-size="5" class="pagination-sm" data-boundary-links="true" data-rotate="false"></div>
+        </div>
+    </div>
+</div>
+<!-- Modal to add/edit a new category -->
+<script type="text/ng-template" id="modalCategory.html">
+    <div class="modal-header">
+        <h3 class="modal-title"> {{ modalTitle }} </h3>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <form name="add-new-category">
+                <div class="form-group col-md-6">
+                    <label for="category-name" class="control-label">Name:</label>
+                    <input name="categoryName" data-ng-model="category.name" type="text" class="form-control" id="category-name" required>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="category-urlImg" class="control-label">Image url:</label>
+                    <input name="categoryUrlImg" data-ng-model="category.urlImg" type="text" class="form-control" id="category-urlImg" required>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="ok()">OK</button>
+        <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+    </div>
+</script>
+<!-- Modal to delete a category -->
+<script type="text/ng-template" id="modalConfirmCategory.html">
+    <div class="modal-header">
+        <h3 class="modal-title"> {{ modalTitle }} </h3>
+    </div>
+    <div class="modal-body">
+        Delete category {{ category.name }} ?
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="ok()">OK</button>
+        <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+    </div>
+</script>

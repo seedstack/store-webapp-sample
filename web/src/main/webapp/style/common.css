@@ -1,0 +1,72 @@
+/**
+ * Copyright (c) 2013-2015 by The SeedStack authors. All rights reserved.
+ *
+ * This file is part of SeedStack, An enterprise-oriented full development stack.
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ */
+/* common */
+
+html {
+    height: 100%;
+}
+
+body {
+    min-height: 100%;
+    background-color: #F2F2F2 !important;
+}
+
+.modal-backdrop {
+    bottom: 0;
+}
+
+p, span, a {
+    color: #555 !important;
+}
+
+.w20-content {
+    background-color: inherit;
+}
+
+.masterhead {
+    margin-bottom: 50px;
+}
+
+.masterhead h1 {
+    font-size: 63px;
+}
+
+.masterhead p {
+    font-size: 21px;
+}
+
+footer {
+    width: 100%;
+    height: 60px;
+    text-align: center;
+}
+
+footer a {
+    color: #777;
+}
+
+.content {
+    padding-top: 80px;
+    padding-bottom: 40px;
+}
+
+.img-center {
+    margin: 0 auto;
+}
+
+.customer-pager .pagination {
+    margin: 10px 0 2px 0 !important;
+}
+
+.store-pager .active a {
+    border-color: #ccc !important;
+    background-color: #EEEEEE !important;
+    color: #000000 !important;
+}

@@ -1,0 +1,39 @@
+/**
+ * Copyright (c) 2013-2015 by The SeedStack authors. All rights reserved.
+ *
+ * This file is part of SeedStack, An enterprise-oriented full development stack.
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ */
+/* customer */
+
+.customer-pager {
+    width: 100% !important;
+    text-align: center !important;
+}
+
+.customer-list {
+    padding: 20px;
+}
+
+.customer-box {
+    padding: 20px;
+    background: #fff;
+    margin-bottom: 20px;
+}
+
+.customer-box strong {
+    color: #555;
+    font-size: 16px;
+}
+
+.name-location img {
+    margin-right: 10px;
+}
+
+.customer-search-field {
+    padding-left: 30px;
+    margin-bottom: 10px;
+}

@@ -1,0 +1,77 @@
+{
+    "id": "store-management",
+    "name": "SEED store admin",
+    "modules": {
+        "categories": {
+            "path": "{store-management}/modules/categories",
+            "autoload": true,
+            "config": {
+                "apiUrl": "${seed-rest-path}"
+            }
+        },
+        "customers": {
+            "path": "{store-management}/modules/customers",
+            "autoload": true,
+            "config": {
+                "apiUrl": "${seed-rest-path}"
+            }
+        },
+        "products": {
+            "path": "{store-management}/modules/products",
+            "autoload": true,
+            "config": {
+                "apiUrl": "${seed-rest-path}"
+            }
+        },
+        "directives": {
+            "path": "{store-management}/modules/directives",
+            "autoload": true
+        },
+        "common-style": {
+            "path": "[css]!{store-management}/style/common.css",
+            "autoload": true
+        },
+        "customer-style": {
+            "path": "[css]!{store-management}/style/customer.css",
+            "autoload": true
+        },
+        "products-style": {
+            "path": "[css]!{store-management}/style/products.css",
+            "autoload": true
+        },
+        "category-style": {
+            "path": "[css]!{store-management}/style/category.css",
+            "autoload": true
+        }
+    },
+    "i18n": {
+        "en": [ "{store-management}/i18n/messages-en.json" ]
+    },
+
+    "routes": {
+        "home": {
+            "templateUrl": "{store-management}/views/home.html",
+            "category": "admin",
+            "hidden": true,
+            "security": "isAuthenticated()"
+        },
+        "customers": {
+            "templateUrl": "{store-management}/views/customers-management.html",
+            "controller": "CustomersManagementController",
+            "category": "admin",
+            "security": "isAuthenticated()"
+        },
+        "products": {
+            "templateUrl": "{store-management}/views/products-management.html",
+            "controller": "ProductsManagementController",
+            "category": "admin",
+            "security": "isAuthenticated()"
+        },
+        "categories": {
+            "templateUrl": "{store-management}/views/category-management.html",
+            "controller": "CategoryManagementController",
+            "category": "admin",
+            "security": "isAuthenticated()"
+        }
+    }
+}

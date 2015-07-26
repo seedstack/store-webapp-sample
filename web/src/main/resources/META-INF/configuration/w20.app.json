@@ -1,0 +1,18 @@
+{
+  "w20-core": {
+    "modules": {
+      "security": {
+        "redirectAfterLogin": "/store-management/products",
+        "autoLogin": true
+      }
+    }
+  },
+
+  "w20-ui": {
+    "modules": {
+      "notifications": {}
+    }
+  },
+
+  "store-management.w20.json": {}
+}

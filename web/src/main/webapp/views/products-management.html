@@ -1,0 +1,135 @@
+<div data-seed-store-navbar></div>
+<div class="container-fluid content">
+    <div class="row">
+        <div class="col-md-3 col-sm-6">
+            <div class="row">
+                <div class="search-product col-md-8 col-xs-10">
+                    <form  novalidate>
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                            <input data-ng-model="searchedProduct" data-ng-model-options="{debounce: 1000}" type="text" name="input" id="search-product-input" class="form-control input-xs" placeholder="find product...">
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-3 col-xs-2">
+                    <button data-ng-click="createNewProduct()" class="btn btn-sm btn-default"><i class="fa fa-plus"></i> Add</button>
+                </div>
+            </div>
+            <div id="products-list">
+                <div class="product-box" data-ng-class="{'active-product': product === activeProduct}" data-ng-repeat="product in paginatedProducts" data-ng-click="setActiveProduct(product)">
+                    <div class="row">
+                        <div class="col-xs-3" style="text-align: center">
+                            <img class="img-responsive" data-ng-src="{{ product.picture }}" alt="product" />
+                        </div>
+                        <div class="col-md-9">
+                            <ul class="list-inline pull-right">
+                                <li><button data-ng-click="editProduct(product)" class="btn btn-default btn-xs"><i class="fa fa-pencil"></i> Edit </button></li>
+                            </ul>
+                            <div>
+                            <span>
+                                <strong> Designation </strong> {{ product.designation }}
+                            </span>
+                            </div>
+                            <div>
+                            <span>
+                                <strong> Price </strong> {{ product.price }}
+                            </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="product-pager store-pager" data-ng-show="paginatedProducts.length">
+                <div data-pagination data-ng-change="pageChanged()" data-ng-model="pagination.currentPage" data-items-per-page="pagination.pageSize" data-total-items="pagination.totalServerItems" data-max-size="5" class="pagination-sm" data-boundary-links="true" data-rotate="false"></div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-8">
+            <div id="product-detail">
+                <div class="product-detail-inner">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="product-detail-description">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="product-detail-title">
+                                            <ul class="list-inline pull-right" style="margin-left: 10px">
+                                                <li><button data-ng-click="editProduct(activeProduct)" class="btn btn-default btn-sm"><i class="fa fa-pencil"></i> Edit </button></li>
+                                                <li><button data-ng-click="deleteProduct(activeProduct)" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Delete </button></li>
+                                            </ul>
+                                            <h2> {{ activeProduct.designation }} </h2>
+                                            <ul class="list-unstyled list-inline">
+                                                <li><i class="fa fa-money"></i> {{ activeProduct.price }} </li>
+                                                <li>Id:  {{ activeProduct.categoryId }} </li>
+                                            </ul>
+                                        </div>
+                                        <p> {{ activeProduct.details }}</p>
+                                        <hr/>
+                                        <p> {{ activeProduct.summary }}</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <img class="img-responsive product-detail-image" data-ng-src="{{ activeProduct.picture }}" alt="product image not found" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal to add/edit a product -->
+    <script type="text/ng-template" id="modalProduct.html">
+        <div class="modal-header">
+            <h3 class="modal-title"> {{ modalTitle }} </h3>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <form name="add-new-product">
+                    <div class="form-group col-md-6">
+                        <label for="product-designation" class="control-label">Designation:</label>
+                        <input name="designation" data-ng-model="product.designation" type="text" class="form-control" id="product-designation" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="product-price" class="control-label">Price:</label>
+                        <input name="price" data-ng-model="product.price" type="text" class="form-control" id="product-price" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="product-category" class="control-label">{{ 'seed-store.category.name' | localize}}</label>
+                        <select id="product-category" data-ng-model="product.categoryId" data-ng-options="category.id as category.name for category in categories" name="product-category" class="form-control" required></select>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label for="product-details" class="control-label">Product details:</label>
+                        <textarea maxlength="200" rows="4" name="product-details" data-ng-model="product.details" class="form-control" id="product-details" required></textarea>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label for="product-summary" class="control-label">Product summary:</label>
+                        <textarea maxlength="200" rows="4" name="product-summary" data-ng-model="product.summary" class="form-control" id="product-summary" required></textarea>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label for="product-picture" class="control-label">Picture url:</label>
+                        <input name="product-picture" data-ng-model="product.picture" type="text" class="form-control" id="product-picture" required>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" ng-click="ok()">OK</button>
+            <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+        </div>
+    </script>
+    <!-- Modal to delete a product -->
+    <script type="text/ng-template" id="modalConfirmProduct.html">
+        <div class="modal-header">
+            <h3 class="modal-title"> {{ modalTitle }} </h3>
+        </div>
+        <div class="modal-body">
+            Delete product {{ product.designation }} ?
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" ng-click="ok()">OK</button>
+            <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+        </div>
+    </script>
+</div>
+
+
