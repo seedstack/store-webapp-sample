@@ -1,6 +1,6 @@
-# Store management sample 
+# Store Web application sample 
 
-Classic Java Web application based on the [e-commerce domain model](https://github.com/seedstack/ecommerce-domain-sample), demonstrating basic SeedStack features.
+A classic Java Web application based on the e-commerce domain model.
 
 # Run it
 
