@@ -13,6 +13,8 @@ If you have [Maven 3](http://maven.apache.org/) installed, you can clone the rep
 Or you can just deploy it on your own Heroku account by clicking this button:
 
 [![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
+
+**Note that the application is secured with basic authentication. Use demo/demo crendentials to log in.**
     
 # Copyright and license
 
