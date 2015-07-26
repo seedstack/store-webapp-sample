@@ -1,4 +1,5 @@
 # Store Web application sample 
+[![Build status](https://travis-ci.org/seedstack/store-webapp-sample.svg?branch=master)](https://travis-ci.org/seedstack/store-webapp-sample)
 
 A classic Java Web application based on the e-commerce domain model.
 
