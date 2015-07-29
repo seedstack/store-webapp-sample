@@ -9,12 +9,15 @@
  */
 package org.seedstack.samples.store.application;
 
+import org.seedstack.business.api.Service;
+
 import javax.mail.MessagingException;
 import java.util.Map;
 
 /**
  * Mail application service.
  */
+@Service
 public interface MailService {
 
     /**
