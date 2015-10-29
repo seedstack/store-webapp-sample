@@ -1,19 +1,15 @@
-# Use docker-based infrastructure
 sudo: false
 
 language: java
 
-jdk:
-  - oraclejdk8
+jdk: oraclejdk8
 
 notifications:
   irc: "chat.freenode.net#seedstack-dev"
 
 cache:
-  directories:
-    - "$HOME/.m2/repository"
+  directories: "$HOME/.m2/repository"
 
-install: /bin/true
+install: rm ~/.m2/settings.xml
 
-script:
-  - mvn -B -U install
+script: mvn -q -U -T 2 -Psnapshots install
