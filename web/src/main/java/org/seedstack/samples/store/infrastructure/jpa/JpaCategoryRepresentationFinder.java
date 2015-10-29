@@ -7,7 +7,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package org.seedstack.samples.store.infrastructure.finders;
+package org.seedstack.samples.store.infrastructure.jpa;
 
 import org.apache.commons.collections.MapUtils;
 import org.javatuples.Pair;
@@ -15,7 +15,7 @@ import org.seedstack.business.api.interfaces.assembler.FluentAssembler;
 import org.seedstack.business.api.interfaces.finder.Range;
 import org.seedstack.business.api.interfaces.finder.Result;
 import org.seedstack.business.jpa.BaseJpaRangeFinder;
-import org.seedstack.samples.ecommerce.domain.category.Category;
+import org.seedstack.samples.store.domain.category.Category;
 import org.seedstack.samples.store.rest.category.CategoryRepresentation;
 import org.seedstack.samples.store.rest.category.CategoryRepresentationFinder;
 
@@ -29,7 +29,7 @@ import java.util.Map;
 /**
  * Category Finder JPA Implementation.
  */
-public class JpaCategoryfinder extends BaseJpaRangeFinder<CategoryRepresentation> implements CategoryRepresentationFinder {
+public class JpaCategoryRepresentationFinder extends BaseJpaRangeFinder<CategoryRepresentation> implements CategoryRepresentationFinder {
 
     @Inject
     private EntityManager entityManager;

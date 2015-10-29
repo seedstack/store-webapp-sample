@@ -7,15 +7,15 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package org.seedstack.samples.store.infrastructure.finders;
+package org.seedstack.samples.store.infrastructure.jpa;
 
 import org.seedstack.business.api.interfaces.assembler.FluentAssembler;
 import org.seedstack.business.api.interfaces.finder.Range;
 import org.seedstack.business.api.interfaces.finder.Result;
 import org.seedstack.business.jpa.BaseJpaRangeFinder;
-import org.seedstack.samples.ecommerce.domain.customer.Customer;
-import org.seedstack.samples.ecommerce.domain.customer.CustomerFactory;
-import org.seedstack.samples.ecommerce.domain.customer.CustomerId;
+import org.seedstack.samples.store.domain.customer.Customer;
+import org.seedstack.samples.store.domain.customer.CustomerFactory;
+import org.seedstack.samples.store.domain.customer.CustomerId;
 import org.seedstack.samples.store.rest.customer.CustomerRepresentation;
 import org.seedstack.samples.store.rest.customer.CustomerRepresentationFinder;
 

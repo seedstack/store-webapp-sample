@@ -22,10 +22,6 @@
     <artifactId>store-webapp-sample-web</artifactId>
     <packaging>war</packaging>
 
-    <properties>
-        <hibernate.version>4.2.17.Final</hibernate.version>
-    </properties>
-
     <build>
         <plugins>
             <plugin>
@@ -56,43 +52,37 @@
             <type>pom</type>
         </dependency>
         <dependency>
-            <groupId>org.seedstack.functions.w20</groupId>
-            <artifactId>w20-function-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.seedstack.seed</groupId>
-            <artifactId>seed-ws-support-web</artifactId>
+            <groupId>org.seedstack.addons.w20</groupId>
+            <artifactId>w20-bridge-web</artifactId>
         </dependency>
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
+            <version>${logback.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.0.1</version>
+            <scope>provided</scope>
         </dependency>
 
         <!-- Persistence -->
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-core</artifactId>
-            <version>${hibernate.version}</version>
-        </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-entitymanager</artifactId>
             <version>${hibernate.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-c3p0</artifactId>
-            <version>${hibernate.version}</version>
-        </dependency>
-        <dependency>
             <groupId>org.hsqldb</groupId>
             <artifactId>hsqldb</artifactId>
+            <version>${hsqldb.version}</version>
         </dependency>
 
         <!-- Tests -->
         <dependency>
             <groupId>org.seedstack.seed</groupId>
-            <artifactId>seed-unittest-support</artifactId>
+            <artifactId>seed-testing</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>

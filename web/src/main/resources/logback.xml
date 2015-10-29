@@ -17,4 +17,6 @@
         <!-- Switch to STDOUT if color output is not supported -->
         <appender-ref ref="STDOUT-COLOR" />
     </root>
+
+    <logger name="io.nuun" level="INFO"/>
 </configuration>

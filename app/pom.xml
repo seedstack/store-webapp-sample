@@ -28,20 +28,25 @@
             <type>pom</type>
         </dependency>
         <dependency>
-            <groupId>org.seedstack.samples</groupId>
-            <artifactId>ecommerce-domain-sample</artifactId>
-            <version>${ecommerce-domain.version}</version>
+            <groupId>org.seedstack.addons.jpa</groupId>
+            <artifactId>jpa</artifactId>
         </dependency>
 
         <!-- Mail -->
         <dependency>
-            <groupId>org.seedstack.seed</groupId>
-            <artifactId>seed-mail-support-core</artifactId>
+            <groupId>org.seedstack.addons.javamail</groupId>
+            <artifactId>javamail</artifactId>
         </dependency>
         <dependency>
             <groupId>org.apache.velocity</groupId>
             <artifactId>velocity</artifactId>
             <version>1.7</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-lang</groupId>
+                    <artifactId>commons-lang</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>javax.mail</groupId>
@@ -64,12 +69,25 @@
         <!-- Tests -->
         <dependency>
             <groupId>org.seedstack.seed</groupId>
-            <artifactId>seed-unittest-support</artifactId>
+            <artifactId>seed-testing</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
+            <version>${logback.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+            <version>${hsqldb.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <version>${hibernate.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

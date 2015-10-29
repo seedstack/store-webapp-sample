@@ -15,8 +15,8 @@ import org.junit.runner.RunWith;
 import org.seedstack.business.api.interfaces.assembler.AssemblerTypes;
 import org.seedstack.business.api.interfaces.assembler.FluentAssembler;
 import org.seedstack.business.api.interfaces.assembler.ModelMapper;
-import org.seedstack.samples.ecommerce.domain.category.Category;
-import org.seedstack.samples.ecommerce.domain.category.CategoryFactory;
+import org.seedstack.samples.store.domain.category.Category;
+import org.seedstack.samples.store.domain.category.CategoryFactory;
 import org.seedstack.samples.store.rest.category.CategoryRepresentation;
 import org.seedstack.seed.it.SeedITRunner;
 

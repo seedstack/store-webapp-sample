@@ -13,7 +13,7 @@ package org.seedstack.samples.store.rest.category;
 import org.seedstack.business.api.interfaces.assembler.DtoOf;
 import org.seedstack.business.api.interfaces.assembler.MatchingEntityId;
 import org.seedstack.business.api.interfaces.assembler.MatchingFactoryParameter;
-import org.seedstack.samples.ecommerce.domain.category.Category;
+import org.seedstack.samples.store.domain.category.Category;
 
 /**
  * CategoryRepresentation.

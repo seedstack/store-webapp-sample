@@ -17,8 +17,8 @@ import org.seedstack.business.api.interfaces.assembler.dsl.AggregateNotFoundExce
 import org.seedstack.business.api.interfaces.finder.Range;
 import org.seedstack.business.api.interfaces.finder.Result;
 import org.seedstack.business.api.interfaces.view.PaginatedView;
-import org.seedstack.samples.ecommerce.domain.product.Product;
-import org.seedstack.samples.ecommerce.domain.product.ProductRepository;
+import org.seedstack.samples.store.domain.product.Product;
+import org.seedstack.samples.store.domain.product.ProductRepository;
 import org.seedstack.seed.core.api.Logging;
 import org.seedstack.seed.persistence.jpa.api.JpaUnit;
 import org.seedstack.seed.transaction.api.Transactional;

@@ -11,7 +11,7 @@ package org.seedstack.samples.store.rest.customer;
 
 
 import org.seedstack.business.api.interfaces.assembler.BaseAssembler;
-import org.seedstack.samples.ecommerce.domain.customer.Customer;
+import org.seedstack.samples.store.domain.customer.Customer;
 
 /**
  * CustomerAssembler

@@ -8,7 +8,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  *#
 #* @vtlvariable name="activationUrl" type="java.lang.String" *#
-#* @vtlvariable name="customer" type="org.seedstack.samples.ecommerce.domain.customer.Customer" *#
+#* @vtlvariable name="customer" type="org.seedstack.samples.Customer" *#
 <html>
 <body>
 <h3>Hi ${customer.lastName} ${customer.firstName}, welcome to the Seed store !</h3>

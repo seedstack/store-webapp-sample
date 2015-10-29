@@ -43,6 +43,10 @@ datasource = main-datasource
 property.hibernate.dialect = org.hibernate.dialect.HSQLDialect
 property.hibernate.hbm2ddl.auto = update
 
+# Define the JPA unit for classes under this package
+[org.seedstack.samples.store.domain.*]
+jpa-unit = ecommerce-domain
+
 ####################################################################
 # Mail
 ####################################################################

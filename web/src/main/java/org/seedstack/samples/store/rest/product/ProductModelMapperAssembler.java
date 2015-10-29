@@ -12,7 +12,7 @@ package org.seedstack.samples.store.rest.product;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 import org.seedstack.business.api.interfaces.assembler.ModelMapperAssembler;
-import org.seedstack.samples.ecommerce.domain.product.Product;
+import org.seedstack.samples.store.domain.product.Product;
 
 /**
  * Overrides the configuration of the the DefaultModelMapper for assembling Product into ProductRepresentation.

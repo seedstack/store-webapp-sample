@@ -1,0 +1,25 @@
+#
+# Copyright (c) 2013-2015, The SeedStack authors <http://seedstack.org>
+#
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+#
+
+[org.seedstack.seed]
+persistence.jdbc.datasources = test-ds
+persistence.jpa.units = ecommerce-domain
+
+# Configure the application datasource
+[org.seedstack.seed.persistence.jdbc.datasource.test-ds]
+driver = org.hsqldb.jdbcDriver
+url = jdbc:hsqldb:mem:test
+user = sa
+password =
+property.sql.enforce_strict_size = true
+
+# Configure the ecommerce JPA unit
+[org.seedstack.seed.persistence.jpa.unit.ecommerce-domain]
+datasource = test-ds
+property.hibernate.dialect = org.hibernate.dialect.HSQLDialect
+property.hibernate.hbm2ddl.auto = update
