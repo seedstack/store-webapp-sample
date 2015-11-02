@@ -11,7 +11,7 @@ define([
     'require',
     'module',
     '{angular}/angular',
-    '{w20-ui}/modules/ui'
+    '{w20-core}/modules/ui'
 ], function (require, module, angular) {
     'use strict';
 

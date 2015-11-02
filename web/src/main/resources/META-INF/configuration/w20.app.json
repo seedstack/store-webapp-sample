@@ -4,12 +4,7 @@
       "security": {
         "redirectAfterLogin": "/store-management/products",
         "autoLogin": true
-      }
-    }
-  },
-
-  "w20-ui": {
-    "modules": {
+      },
       "notifications": {}
     }
   },
