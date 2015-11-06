@@ -8,7 +8,7 @@
 package org.seedstack.samples.store.domain.order;
 
 
-import org.seedstack.business.api.domain.BaseEntity;
+import org.seedstack.business.domain.BaseEntity;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

@@ -8,7 +8,7 @@
 package org.seedstack.samples.store.infrastructure.jpa;
 
 
-import org.seedstack.business.jpa.BaseJpaRepository;
+import org.seedstack.jpa.BaseJpaRepository;
 import org.seedstack.samples.store.domain.order.Order;
 import org.seedstack.samples.store.domain.order.OrderRepository;
 

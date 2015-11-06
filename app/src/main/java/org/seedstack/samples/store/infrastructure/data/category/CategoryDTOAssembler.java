@@ -7,7 +7,7 @@
  */
 package org.seedstack.samples.store.infrastructure.data.category;
 
-import org.seedstack.business.api.interfaces.assembler.BaseAssembler;
+import org.seedstack.business.assembler.BaseAssembler;
 import org.seedstack.samples.store.domain.category.Category;
 
 /**

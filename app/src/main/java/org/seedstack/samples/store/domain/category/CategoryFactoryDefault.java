@@ -7,7 +7,7 @@
  */
 package org.seedstack.samples.store.domain.category;
 
-import org.seedstack.business.api.domain.BaseFactory;
+import org.seedstack.business.domain.BaseFactory;
 
 /**
  * Category Factory implementation.

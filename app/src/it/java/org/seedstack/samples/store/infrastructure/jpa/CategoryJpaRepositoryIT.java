@@ -17,8 +17,8 @@ import org.seedstack.samples.store.domain.category.Category;
 import org.seedstack.samples.store.domain.category.CategoryFactory;
 import org.seedstack.samples.store.domain.category.CategoryRepository;
 import org.seedstack.seed.it.SeedITRunner;
-import org.seedstack.seed.persistence.jpa.api.JpaUnit;
-import org.seedstack.seed.transaction.api.Transactional;
+import org.seedstack.jpa.JpaUnit;
+import org.seedstack.seed.transaction.Transactional;
 
 import javax.inject.Inject;
 

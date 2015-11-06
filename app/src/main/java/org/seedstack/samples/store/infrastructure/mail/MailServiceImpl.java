@@ -14,7 +14,7 @@ import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.seedstack.samples.store.application.MailService;
-import org.seedstack.seed.core.api.Configuration;
+import org.seedstack.seed.Configuration;
 
 import javax.inject.Inject;
 import javax.inject.Named;

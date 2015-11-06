@@ -10,7 +10,7 @@
 package org.seedstack.samples.store.rest.customer;
 
 
-import org.seedstack.business.api.interfaces.assembler.BaseAssembler;
+import org.seedstack.business.assembler.BaseAssembler;
 import org.seedstack.samples.store.domain.customer.Customer;
 
 /**

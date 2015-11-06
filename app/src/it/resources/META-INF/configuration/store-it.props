@@ -6,12 +6,12 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 #
 
-[org.seedstack.seed]
-persistence.jdbc.datasources = test-ds
-persistence.jpa.units = ecommerce-domain
+[org.seedstack]
+jdbc.datasources = test-ds
+jpa.units = ecommerce-domain
 
 # Configure the application datasource
-[org.seedstack.seed.persistence.jdbc.datasource.test-ds]
+[org.seedstack.jdbc.datasource.test-ds]
 driver = org.hsqldb.jdbcDriver
 url = jdbc:hsqldb:mem:test
 user = sa
@@ -19,7 +19,7 @@ password =
 property.sql.enforce_strict_size = true
 
 # Configure the ecommerce JPA unit
-[org.seedstack.seed.persistence.jpa.unit.ecommerce-domain]
+[org.seedstack.jpa.unit.ecommerce-domain]
 datasource = test-ds
 property.hibernate.dialect = org.hibernate.dialect.HSQLDialect
 property.hibernate.hbm2ddl.auto = update

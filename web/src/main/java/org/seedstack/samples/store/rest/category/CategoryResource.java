@@ -11,18 +11,18 @@ package org.seedstack.samples.store.rest.category;
 
 import org.apache.commons.lang.StringUtils;
 import org.javatuples.Pair;
-import org.seedstack.business.api.interfaces.assembler.FluentAssembler;
-import org.seedstack.business.api.interfaces.assembler.dsl.AggregateNotFoundException;
-import org.seedstack.business.api.interfaces.finder.Range;
-import org.seedstack.business.api.interfaces.finder.Result;
-import org.seedstack.business.api.interfaces.view.ChunkedView;
-import org.seedstack.business.api.interfaces.view.PaginatedView;
+import org.seedstack.business.assembler.FluentAssembler;
+import org.seedstack.business.assembler.dsl.AggregateNotFoundException;
+import org.seedstack.business.finder.Range;
+import org.seedstack.business.finder.Result;
+import org.seedstack.business.view.ChunkedView;
+import org.seedstack.business.view.PaginatedView;
 import org.seedstack.samples.store.domain.category.Category;
 import org.seedstack.samples.store.domain.category.CategoryRepository;
 import org.seedstack.samples.store.rest.product.ProductRepresentation;
 import org.seedstack.samples.store.rest.product.ProductRepresentationFinder;
-import org.seedstack.seed.persistence.jpa.api.JpaUnit;
-import org.seedstack.seed.transaction.api.Transactional;
+import org.seedstack.jpa.JpaUnit;
+import org.seedstack.seed.transaction.Transactional;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -34,7 +34,7 @@ import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.seedstack.business.api.interfaces.assembler.AssemblerTypes.MODEL_MAPPER;
+import static org.seedstack.business.assembler.AssemblerTypes.MODEL_MAPPER;
 
 /**
  * A REST resource to manage categories.

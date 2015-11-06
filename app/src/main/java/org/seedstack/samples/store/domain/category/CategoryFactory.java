@@ -7,7 +7,7 @@
  */
 package org.seedstack.samples.store.domain.category;
 
-import org.seedstack.business.api.domain.GenericFactory;
+import org.seedstack.business.domain.GenericFactory;
 
 /**
  * Category Factory interface.

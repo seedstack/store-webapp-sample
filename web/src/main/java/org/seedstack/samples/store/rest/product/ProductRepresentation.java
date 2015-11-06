@@ -10,8 +10,8 @@
 package org.seedstack.samples.store.rest.product;
 
 
-import org.seedstack.business.api.interfaces.assembler.MatchingEntityId;
-import org.seedstack.business.api.interfaces.assembler.MatchingFactoryParameter;
+import org.seedstack.business.assembler.MatchingEntityId;
+import org.seedstack.business.assembler.MatchingFactoryParameter;
 
 /**
  * Representation of a product.

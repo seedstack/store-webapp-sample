@@ -8,7 +8,7 @@
 package org.seedstack.samples.store.domain.order;
 
 import org.javatuples.Triplet;
-import org.seedstack.business.api.domain.BaseFactory;
+import org.seedstack.business.domain.BaseFactory;
 import org.seedstack.samples.store.domain.customer.CustomerFactory;
 
 import javax.inject.Inject;

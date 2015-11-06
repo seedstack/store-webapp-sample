@@ -7,7 +7,7 @@
  */
 package org.seedstack.samples.store.domain.customer;
 
-import org.seedstack.business.api.domain.DomainPolicy;
+import org.seedstack.business.domain.DomainPolicy;
 
 /**
  * DomainPolicy for Customer.

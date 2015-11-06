@@ -11,10 +11,12 @@
 [org.seedstack.seed]
 core.application-id = seedstack-store-management
 core.application-name = SeedStack store management
-persistence.jdbc.datasources = main-datasource
-persistence.jpa.units = ecommerce-domain
 mail.providers = smtp-mycompany
 shell.enabled = true
+
+[org.seedstack]
+jdbc.datasources = main-datasource
+jpa.units = ecommerce-domain
 
 ####################################################################
 # Security
@@ -29,7 +31,7 @@ demo = demo
 ####################################################################
 
 # Configure the application datasource
-[org.seedstack.seed.persistence.jdbc.datasource.main-datasource]
+[org.seedstack.jdbc.datasource.main-datasource]
 provider = HikariDataSourceProvider
 driver = org.hsqldb.jdbcDriver
 url = jdbc:hsqldb:mem:store
@@ -38,7 +40,7 @@ password =
 property.sql.enforce_strict_size = true
 
 # Configure the ecommerce JPA unit
-[org.seedstack.seed.persistence.jpa.unit.ecommerce-domain]
+[org.seedstack.jpa.unit.ecommerce-domain]
 datasource = main-datasource
 property.hibernate.dialect = org.hibernate.dialect.HSQLDialect
 property.hibernate.hbm2ddl.auto = update
