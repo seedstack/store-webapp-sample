@@ -7,7 +7,7 @@
  */
 package org.seedstack.samples.store.domain.product;
 
-import org.seedstack.business.api.domain.GenericRepository;
+import org.seedstack.business.domain.GenericRepository;
 
 /**
  * Repository interface of {@link Product}.

@@ -9,10 +9,10 @@
  */
 package org.seedstack.samples.store.infrastructure.jpa;
 
-import org.seedstack.business.api.interfaces.assembler.FluentAssembler;
-import org.seedstack.business.api.interfaces.finder.Range;
-import org.seedstack.business.api.interfaces.finder.Result;
-import org.seedstack.business.jpa.BaseJpaRangeFinder;
+import org.seedstack.business.assembler.FluentAssembler;
+import org.seedstack.business.finder.Range;
+import org.seedstack.business.finder.Result;
+import org.seedstack.jpa.BaseJpaRangeFinder;
 import org.seedstack.samples.store.domain.customer.Customer;
 import org.seedstack.samples.store.domain.customer.CustomerFactory;
 import org.seedstack.samples.store.domain.customer.CustomerId;

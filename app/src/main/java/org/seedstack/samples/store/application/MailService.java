@@ -9,7 +9,7 @@
  */
 package org.seedstack.samples.store.application;
 
-import org.seedstack.business.api.Service;
+import org.seedstack.business.Service;
 
 import javax.mail.MessagingException;
 import java.util.Map;

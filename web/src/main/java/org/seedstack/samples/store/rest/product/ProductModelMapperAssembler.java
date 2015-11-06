@@ -11,7 +11,7 @@ package org.seedstack.samples.store.rest.product;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
-import org.seedstack.business.api.interfaces.assembler.ModelMapperAssembler;
+import org.seedstack.business.assembler.modelmapper.ModelMapperAssembler;
 import org.seedstack.samples.store.domain.product.Product;
 
 /**

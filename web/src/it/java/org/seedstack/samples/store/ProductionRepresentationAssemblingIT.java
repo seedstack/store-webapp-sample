@@ -12,7 +12,7 @@ package org.seedstack.samples.store;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.seedstack.business.api.interfaces.assembler.FluentAssembler;
+import org.seedstack.business.assembler.FluentAssembler;
 import org.seedstack.samples.store.domain.product.Product;
 import org.seedstack.samples.store.domain.product.ProductFactory;
 import org.seedstack.samples.store.rest.product.ProductRepresentation;

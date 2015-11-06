@@ -8,7 +8,7 @@
 package org.seedstack.samples.store.domain.customer;
 
 
-import org.seedstack.business.api.domain.BaseFactory;
+import org.seedstack.business.domain.BaseFactory;
 
 /**
  * Customer Factory implementation.

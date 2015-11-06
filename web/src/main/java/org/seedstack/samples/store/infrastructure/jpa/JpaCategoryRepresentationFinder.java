@@ -11,10 +11,10 @@ package org.seedstack.samples.store.infrastructure.jpa;
 
 import org.apache.commons.collections.MapUtils;
 import org.javatuples.Pair;
-import org.seedstack.business.api.interfaces.assembler.FluentAssembler;
-import org.seedstack.business.api.interfaces.finder.Range;
-import org.seedstack.business.api.interfaces.finder.Result;
-import org.seedstack.business.jpa.BaseJpaRangeFinder;
+import org.seedstack.business.assembler.FluentAssembler;
+import org.seedstack.business.finder.Range;
+import org.seedstack.business.finder.Result;
+import org.seedstack.jpa.BaseJpaRangeFinder;
 import org.seedstack.samples.store.domain.category.Category;
 import org.seedstack.samples.store.rest.category.CategoryRepresentation;
 import org.seedstack.samples.store.rest.category.CategoryRepresentationFinder;

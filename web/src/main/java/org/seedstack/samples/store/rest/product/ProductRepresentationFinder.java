@@ -10,11 +10,11 @@
 package org.seedstack.samples.store.rest.product;
 
 
-import org.seedstack.business.api.interfaces.finder.Finder;
-import org.seedstack.business.api.interfaces.finder.Range;
-import org.seedstack.business.api.interfaces.finder.Result;
-import org.seedstack.seed.persistence.jpa.api.JpaUnit;
-import org.seedstack.seed.transaction.api.Transactional;
+import org.seedstack.business.finder.Finder;
+import org.seedstack.business.finder.Range;
+import org.seedstack.business.finder.Result;
+import org.seedstack.jpa.JpaUnit;
+import org.seedstack.seed.transaction.Transactional;
 
 import java.util.List;
 import java.util.Map;

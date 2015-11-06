@@ -7,7 +7,7 @@
  */
 package org.seedstack.samples.store.domain.customer;
 
-import org.seedstack.business.api.domain.BaseAggregateRoot;
+import org.seedstack.business.domain.BaseAggregateRoot;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;

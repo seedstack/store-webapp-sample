@@ -11,17 +11,17 @@ package org.seedstack.samples.store.rest.product;
 
 import org.apache.commons.lang.StringUtils;
 import org.javatuples.Pair;
-import org.seedstack.business.api.interfaces.assembler.AssemblerTypes;
-import org.seedstack.business.api.interfaces.assembler.FluentAssembler;
-import org.seedstack.business.api.interfaces.assembler.dsl.AggregateNotFoundException;
-import org.seedstack.business.api.interfaces.finder.Range;
-import org.seedstack.business.api.interfaces.finder.Result;
-import org.seedstack.business.api.interfaces.view.PaginatedView;
+import org.seedstack.business.assembler.AssemblerTypes;
+import org.seedstack.business.assembler.FluentAssembler;
+import org.seedstack.business.assembler.dsl.AggregateNotFoundException;
+import org.seedstack.business.finder.Range;
+import org.seedstack.business.finder.Result;
+import org.seedstack.business.view.PaginatedView;
 import org.seedstack.samples.store.domain.product.Product;
 import org.seedstack.samples.store.domain.product.ProductRepository;
-import org.seedstack.seed.core.api.Logging;
-import org.seedstack.seed.persistence.jpa.api.JpaUnit;
-import org.seedstack.seed.transaction.api.Transactional;
+import org.seedstack.seed.Logging;
+import org.seedstack.jpa.JpaUnit;
+import org.seedstack.seed.transaction.Transactional;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;

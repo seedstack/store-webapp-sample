@@ -8,7 +8,7 @@
 package org.seedstack.samples.store.domain.product;
 
 
-import org.seedstack.business.api.domain.BaseAggregateRoot;
+import org.seedstack.business.domain.BaseAggregateRoot;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

@@ -7,7 +7,7 @@
  */
 package org.seedstack.samples.store.domain.order;
 
-import org.seedstack.business.api.domain.BaseAggregateRoot;
+import org.seedstack.business.domain.BaseAggregateRoot;
 import org.seedstack.samples.store.domain.customer.CustomerId;
 
 import javax.persistence.CascadeType;

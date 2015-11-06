@@ -8,7 +8,7 @@
 package org.seedstack.samples.store.domain.order;
 
 import org.javatuples.Triplet;
-import org.seedstack.business.api.domain.GenericFactory;
+import org.seedstack.business.domain.GenericFactory;
 
 import java.util.Date;
 import java.util.List;
