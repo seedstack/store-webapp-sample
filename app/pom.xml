@@ -31,8 +31,6 @@
             <groupId>org.seedstack.addons.jpa</groupId>
             <artifactId>jpa</artifactId>
         </dependency>
-
-        <!-- Mail -->
         <dependency>
             <groupId>org.seedstack.addons.javamail</groupId>
             <artifactId>javamail</artifactId>
@@ -53,8 +51,6 @@
             <artifactId>mail</artifactId>
             <version>1.4.7</version>
         </dependency>
-
-        <!-- Persistence -->
         <dependency>
             <groupId>org.hibernate.javax.persistence</groupId>
             <artifactId>hibernate-jpa-2.0-api</artifactId>
