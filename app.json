@@ -1,6 +1,6 @@
 {
   "name": "SeedStack store sample",
-  "description": "A classic Java Web application based on the e-commerce domain model.",
+  "description": "A SeedStack classic Web application.",
   "repository": "https://github.com/seedstack/store-webapp-sample",
   "keywords": ["seedstack", "store", "web", "java", "application", "sample"]
 }
