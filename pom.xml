@@ -125,6 +125,17 @@
                     <name>ojo-snapshots</name>
                     <url>https://oss.jfrog.org/artifactory/libs-snapshot</url>
                 </repository>
+                <repository>
+                    <snapshots>
+                        <enabled>true</enabled>
+                    </snapshots>
+                    <releases>
+                        <enabled>false</enabled>
+                    </releases>
+                    <id>sonatype-nexus-staging</id>
+                    <name>Sonatype Nexus Staging</name>
+                    <url>https://oss.sonatype.org/content/groups/staging</url>
+                </repository>
             </repositories>
         </profile>
     </profiles>
