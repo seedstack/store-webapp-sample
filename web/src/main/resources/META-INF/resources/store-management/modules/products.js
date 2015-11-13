@@ -21,7 +21,7 @@ define([
         config = module && module.config() || {};
 
     seedStoreProductManagement.factory('ProductService', ['$resource', function ($resource) {
-        var Product = $resource(require.toUrl(config.apiUrl + '/products/:productId'), {productId: '@id'}, {
+        var Product = $resource(require.toUrl(config.apiUrl + 'products/:productId'), {productId: '@id'}, {
             'update': {method: 'PUT'}
         });
 

@@ -18,7 +18,7 @@ define([
         config = module && module.config() || {};
 
     seedStoreCustomerManagement.factory('CustomerService', ['$resource', function ($resource) {
-        var Customer = $resource(require.toUrl(config.apiUrl + '/customers/:customerId'), {}, {
+        var Customer = $resource(require.toUrl(config.apiUrl + 'customers/:customerId'), {}, {
             'update': {method: 'PUT'}
         });
 

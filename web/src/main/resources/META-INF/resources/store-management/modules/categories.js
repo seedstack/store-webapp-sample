@@ -21,11 +21,11 @@ define([
     seedStoreCategoryManagement.value('editedCategory', {});
 
     seedStoreCategoryManagement.factory('CategoryService', ['$resource', function ($resource) {
-        var Category = $resource(require.toUrl(config.apiUrl + '/categories/:categoryId'), {categoryId: '@id'}, {
+        var Category = $resource(require.toUrl(config.apiUrl + 'categories/:categoryId'), {categoryId: '@id'}, {
             'update': {method: 'PUT'}
         });
 
-        var ProductsByCategory = $resource(require.toUrl(config.apiUrl + '/categories/:categoryId/products'));
+        var ProductsByCategory = $resource(require.toUrl(config.apiUrl + 'categories/:categoryId/products'));
 
         return {
             allCategories: function (success, error) {

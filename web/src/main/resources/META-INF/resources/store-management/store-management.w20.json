@@ -6,21 +6,21 @@
             "path": "{store-management}/modules/categories",
             "autoload": true,
             "config": {
-                "apiUrl": "${seed-rest-path}"
+                "apiUrl": "${seed-rest-path-slash}"
             }
         },
         "customers": {
             "path": "{store-management}/modules/customers",
             "autoload": true,
             "config": {
-                "apiUrl": "${seed-rest-path}"
+                "apiUrl": "${seed-rest-path-slash}"
             }
         },
         "products": {
             "path": "{store-management}/modules/products",
             "autoload": true,
             "config": {
-                "apiUrl": "${seed-rest-path}"
+                "apiUrl": "${seed-rest-path-slash}"
             }
         },
         "directives": {
