@@ -22,15 +22,30 @@
     <artifactId>store-webapp-sample-app</artifactId>
 
     <dependencies>
+
         <dependency>
             <groupId>org.seedstack</groupId>
             <artifactId>app-composite</artifactId>
             <type>pom</type>
         </dependency>
+
+        <!-- PERSISTENCE -->
         <dependency>
             <groupId>org.seedstack.addons.jpa</groupId>
             <artifactId>jpa</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.hibernate.javax.persistence</groupId>
+            <artifactId>hibernate-jpa-2.1-api</artifactId>
+            <version>1.0.0.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP-java6</artifactId>
+            <version>2.3.5</version>
+        </dependency>
+
+        <!-- MAIL -->
         <dependency>
             <groupId>org.seedstack.addons.javamail</groupId>
             <artifactId>javamail</artifactId>
@@ -51,18 +66,8 @@
             <artifactId>mail</artifactId>
             <version>1.4.7</version>
         </dependency>
-        <dependency>
-            <groupId>org.hibernate.javax.persistence</groupId>
-            <artifactId>hibernate-jpa-2.0-api</artifactId>
-            <version>1.0.1.Final</version>
-        </dependency>
-        <dependency>
-            <groupId>com.zaxxer</groupId>
-            <artifactId>HikariCP-java6</artifactId>
-            <version>2.3.5</version>
-        </dependency>
 
-        <!-- Tests -->
+        <!-- TESTS -->
         <dependency>
             <groupId>org.seedstack.seed</groupId>
             <artifactId>seed-testing</artifactId>
