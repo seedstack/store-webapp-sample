@@ -16,8 +16,6 @@ A project demonstrating the following features of SeedStack:
 
 If you have [Maven 3](http://maven.apache.org/) installed, you can clone the repository and run it locally:
 
-    git clone https://github.com/seedstack/store-webapp-sample.git
-    cd store-webapp-sample
     mvn clean install && (cd web && mvn seedstack:run)
 
 ## On Heroku
