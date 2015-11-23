@@ -98,18 +98,6 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.seedstack</groupId>
-                <artifactId>seedstack-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>build-capsule</id>
-                        <goals>
-                            <goal>package</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
     </build>
 

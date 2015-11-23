@@ -20,7 +20,6 @@
     <artifactId>store-webapp-sample-app</artifactId>
 
     <dependencies>
-
         <dependency>
             <groupId>org.seedstack</groupId>
             <artifactId>app-composite</artifactId>
