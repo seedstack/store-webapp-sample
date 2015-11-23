@@ -1,6 +1,6 @@
 {
-  "name": "SeedStack store sample",
-  "description": "A SeedStack classic Web application.",
+  "name": "SeedStack store Web application sample",
+  "description": "Sample demonstrating the following features of SeedStack: REST resources, JPA persistence, JavaMail, pagination, static resources serving, simple business code.",
   "repository": "https://github.com/seedstack/store-webapp-sample",
-  "keywords": ["seedstack", "store", "web", "java", "application", "sample"]
+  "keywords": ["seedstack", "webapp", "java", "sample", "rest", "jpa"]
 }

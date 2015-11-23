@@ -1,21 +1,35 @@
 # Store Web application sample 
 [![Build status](https://travis-ci.org/seedstack/store-webapp-sample.svg?branch=master)](https://travis-ci.org/seedstack/store-webapp-sample)
 
-A classic Java Web application.
+A project demonstrating the following features of SeedStack:
 
-# Run it
+* REST resources,
+* JPA persistence,
+* JavaMail,
+* Pagination,
+* Static resources serving,
+* Simple business code.
 
-If you have [Maven 3](http://maven.apache.org/) installed, you can clone the repository and run it locally with the maven Jetty plugin:
+# Running it
+
+## Locally
+
+If you have [Maven 3](http://maven.apache.org/) installed, you can clone the repository and run it locally:
 
     git clone https://github.com/seedstack/store-webapp-sample.git
     cd store-webapp-sample
-    mvn clean install && (cd web && mvn jetty:run)
+    mvn clean install && (cd web && mvn seedstack:run)
+
+## On Heroku
 
 Or you can just deploy it on your own Heroku account by clicking this button:
 
 [![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
 
-**Note that the application is secured with basic authentication. Use demo/demo crendentials to log in.**
+# Usage
+
+Just point your favorite browser to the base URL.
+**Note that the application is secured with basic authentication. Use demo/demo credentials to log in.**
     
 # Copyright and license
 
