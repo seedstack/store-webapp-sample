@@ -6,9 +6,12 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 #
 
+org.seedstack.seed.server.port<heroku> = ${env:PORT}
+
 ####################################################################
 # Web security
 ####################################################################
+
 [org.seedstack.seed.security.urls]
 /** = authcBasic
 
