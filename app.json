@@ -1,6 +1,6 @@
 {
  "name": "store-webapp-sample",
-  "description": "Sample demonstrating the following features of SeedStack: REST resources, JPA persistence, JavaMail, pagination, static resources serving, simple business code.",
+  "description": "Sample demonstrating a classic Java application (backend and frontend) made with SeedStack.",
   "repository": "https://github.com/seedstack/store-webapp-sample",
   "keywords": ["seedstack", "webapp", "java", "sample", "rest", "jpa"]
 }
