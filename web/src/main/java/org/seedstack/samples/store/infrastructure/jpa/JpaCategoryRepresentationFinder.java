@@ -10,9 +10,9 @@ package org.seedstack.samples.store.infrastructure.jpa;
 import org.apache.commons.collections.MapUtils;
 import org.javatuples.Pair;
 import org.seedstack.business.assembler.FluentAssembler;
+import org.seedstack.business.finder.BaseRangeFinder;
 import org.seedstack.business.finder.Range;
 import org.seedstack.business.finder.Result;
-import org.seedstack.jpa.BaseJpaRangeFinder;
 import org.seedstack.samples.store.domain.category.Category;
 import org.seedstack.samples.store.rest.category.CategoryRepresentation;
 import org.seedstack.samples.store.rest.category.CategoryRepresentationFinder;
@@ -27,7 +27,7 @@ import java.util.Map;
 /**
  * Category Finder JPA Implementation.
  */
-public class JpaCategoryRepresentationFinder extends BaseJpaRangeFinder<CategoryRepresentation> implements CategoryRepresentationFinder {
+public class JpaCategoryRepresentationFinder extends BaseRangeFinder<CategoryRepresentation, Map<String, Object>> implements CategoryRepresentationFinder {
 
     @Inject
     private EntityManager entityManager;

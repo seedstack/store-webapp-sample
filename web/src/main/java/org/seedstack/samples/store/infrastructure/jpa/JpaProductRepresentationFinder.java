@@ -10,9 +10,9 @@ package org.seedstack.samples.store.infrastructure.jpa;
 import org.apache.commons.collections.MapUtils;
 import org.javatuples.Pair;
 import org.seedstack.business.assembler.FluentAssembler;
+import org.seedstack.business.finder.BaseRangeFinder;
 import org.seedstack.business.finder.Range;
 import org.seedstack.business.finder.Result;
-import org.seedstack.jpa.BaseJpaRangeFinder;
 import org.seedstack.samples.store.domain.product.Product;
 import org.seedstack.samples.store.rest.product.ProductRepresentation;
 import org.seedstack.samples.store.rest.product.ProductRepresentationFinder;
@@ -27,7 +27,7 @@ import java.util.Map;
 /**
  * Product Finder JPA Implementation.
  */
-public class JpaProductRepresentationFinder extends BaseJpaRangeFinder<ProductRepresentation> implements ProductRepresentationFinder {
+public class JpaProductRepresentationFinder extends BaseRangeFinder<ProductRepresentation, Map<String, Object>> implements ProductRepresentationFinder {
 
     @Inject
     private EntityManager entityManager;
