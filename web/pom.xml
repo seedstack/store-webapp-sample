@@ -43,7 +43,6 @@
             <artifactId>store-webapp-sample-app</artifactId>
             <version>${project.version}</version>
         </dependency>
-
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
@@ -61,10 +60,8 @@
             <artifactId>seed-web-undertow</artifactId>
         </dependency>
         <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <version>3.0.1</version>
-            <scope>provided</scope>
+            <groupId>org.seedstack.addons.swagger</groupId>
+            <artifactId>swagger</artifactId>
         </dependency>
         <dependency>
             <groupId>org.seedstack.addons.w20</groupId>
@@ -73,6 +70,12 @@
         <dependency>
             <groupId>org.seedstack.addons.w20</groupId>
             <artifactId>w20-bridge-web-bootstrap-3</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.0.1</version>
+            <scope>provided</scope>
         </dependency>
 
         <!-- PERSISTENCE -->
