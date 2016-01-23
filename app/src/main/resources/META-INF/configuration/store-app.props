@@ -10,7 +10,6 @@
 core.application-id = seedstack-store-management
 core.application-name = SeedStack store management
 mail.providers = smtp-mycompany
-shell.enabled = true
 
 [org.seedstack]
 jdbc.datasources = main-datasource

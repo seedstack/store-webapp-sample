@@ -8,9 +8,9 @@
 package org.seedstack.samples.store.infrastructure.jpa;
 
 import org.seedstack.business.assembler.FluentAssembler;
+import org.seedstack.business.finder.BaseRangeFinder;
 import org.seedstack.business.finder.Range;
 import org.seedstack.business.finder.Result;
-import org.seedstack.jpa.BaseJpaRangeFinder;
 import org.seedstack.samples.store.domain.customer.Customer;
 import org.seedstack.samples.store.domain.customer.CustomerFactory;
 import org.seedstack.samples.store.domain.customer.CustomerId;
@@ -32,7 +32,7 @@ import java.util.Map;
 /**
  * Customer Finder JPA Implementation.
  */
-public class JpaCustomerRepresentationFinder extends BaseJpaRangeFinder<CustomerRepresentation> implements CustomerRepresentationFinder {
+public class JpaCustomerRepresentationFinder extends BaseRangeFinder<CustomerRepresentation, Map<String, Object>> implements CustomerRepresentationFinder {
 
     @Inject
     private EntityManager entityManager;
