@@ -8,7 +8,7 @@
 /*
  * Creation : 30 juil. 2013
  */
-package org.seedstack.samples.store.infrastructure.jpa;
+package org.seedstack.samples.store;
 
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
