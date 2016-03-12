@@ -16,7 +16,7 @@ A project demonstrating the following features of SeedStack:
 
 If you have [Maven 3](http://maven.apache.org/) installed, you can clone the repository and run it locally:
 
-    mvn clean install && (cd web && mvn seedstack:run)
+    mvn seedstack:run
 
 ## On Heroku
 
