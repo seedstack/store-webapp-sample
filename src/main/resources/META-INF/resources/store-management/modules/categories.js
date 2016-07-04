@@ -73,21 +73,21 @@ define([
         };
     }]);
 
-    seedStoreCategoryManagement.controller('ModalCategoryController', ['$scope', '$modalInstance', 'category', 'modalTitle', function ($scope, $modalInstance, category, modalTitle) {
+    seedStoreCategoryManagement.controller('ModalCategoryController', ['$scope', '$uibModalInstance', 'category', 'modalTitle', function ($scope, $uibModalInstance, category, modalTitle) {
         $scope.modalTitle = modalTitle;
         $scope.category = category;
         $scope.ok = function () {
-            $modalInstance.close($scope.category);
+            $uibModalInstance.close($scope.category);
         };
         $scope.cancel = function () {
-            $modalInstance.dismiss('cancel');
+            $uibModalInstance.dismiss('cancel');
         };
     }]);
 
-    seedStoreCategoryManagement.controller('CategoryManagementController', ['$scope', '$modal', '$timeout', 'CategoryService', function ($scope, $modal, $timeout, categoryService) {
+    seedStoreCategoryManagement.controller('CategoryManagementController', ['$scope', '$uibModal', '$timeout', 'CategoryService', function ($scope, $uibModal, $timeout, categoryService) {
 
         function modal(title, template, controller, category, callback) {
-            var modalInstance = $modal.open({
+            var modalInstance = $uibModal.open({
                 templateUrl: template,
                 controller: controller,
                 resolve: {

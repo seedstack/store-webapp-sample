@@ -55,21 +55,21 @@ define([
         };
     }]);
 
-    seedStoreCustomerManagement.controller('ModalCustomerController', ['$scope', '$modalInstance', 'customer', 'modalTitle', function ($scope, $modalInstance, customer, modalTitle) {
+    seedStoreCustomerManagement.controller('ModalCustomerController', ['$scope', '$uibModalInstance', 'customer', 'modalTitle', function ($scope, $uibModalInstance, customer, modalTitle) {
         $scope.modalTitle = modalTitle;
         $scope.customer = customer;
         $scope.ok = function () {
-            $modalInstance.close($scope.customer);
+            $uibModalInstance.close($scope.customer);
         };
         $scope.cancel = function () {
-            $modalInstance.dismiss('cancel');
+            $uibModalInstance.dismiss('cancel');
         };
     }]);
 
-    seedStoreCustomerManagement.controller('CustomersManagementController', ['$scope', '$modal', 'CustomerService', function ($scope, $modal, customerService) {
+    seedStoreCustomerManagement.controller('CustomersManagementController', ['$scope', '$uibModal', 'CustomerService', function ($scope, $uibModal, customerService) {
 
         function modal(title, template, controller, customer, callback) {
-            var modalInstance = $modal.open({
+            var modalInstance = $uibModal.open({
                 templateUrl: template,
                 controller: controller,
                 resolve: {
