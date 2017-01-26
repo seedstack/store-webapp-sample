@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2015, The SeedStack authors <http://seedstack.org>
+ * Copyright (c) 2013-2016, The SeedStack authors <http://seedstack.org>
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -28,19 +28,12 @@ import java.util.Map;
  * Product Finder JPA Implementation.
  */
 public class ProductRepresentationJpaFinder extends BaseRangeFinder<ProductRepresentation, Map<String, Object>> implements ProductRepresentationFinder {
-
     @Inject
     private EntityManager entityManager;
     @Inject
     private FluentAssembler fluentAssembler;
 
     private String whereClauseEnd;
-
-    @Override
-    public List<ProductRepresentation> findAllProducts() {
-        TypedQuery<ProductRepresentation> query = entityManager.createQuery("select new " + ProductRepresentation.class.getName() + "(p.entityId, p.designation, p.summary, p.details, p.picture, p.price,p.categoryId,cat.name)" + " from Product p,Category cat where p.categoryId=cat.categoryId ", ProductRepresentation.class);
-        return query.getResultList();
-    }
 
     @Override
     public Result<ProductRepresentation> findAllProducts(Range range, Map<String, Object> criteria) {
@@ -54,13 +47,6 @@ public class ProductRepresentationJpaFinder extends BaseRangeFinder<ProductRepre
             return fluentAssembler.assemble(product).to(ProductRepresentation.class);
         }
         return null;
-    }
-
-    @Override
-    public List<ProductRepresentation> findProductsByCategory(long id) {
-        TypedQuery<ProductRepresentation> query = entityManager.createQuery("select new " + ProductRepresentation.class.getName() + "(p.entityId, p.designation, p.summary, p.details, p.picture, p.price)" + " from Product p where p.categoryId =:id", ProductRepresentation.class);
-        query.setParameter("id", id);
-        return query.getResultList();
     }
 
     @Override

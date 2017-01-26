@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2015, The SeedStack authors <http://seedstack.org>
+ * Copyright (c) 2013-2016, The SeedStack authors <http://seedstack.org>
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -15,10 +15,10 @@ import org.seedstack.business.assembler.dsl.AggregateNotFoundException;
 import org.seedstack.business.finder.Range;
 import org.seedstack.business.finder.Result;
 import org.seedstack.business.view.PaginatedView;
+import org.seedstack.jpa.JpaUnit;
 import org.seedstack.samples.store.domain.product.Product;
 import org.seedstack.samples.store.domain.product.ProductRepository;
 import org.seedstack.seed.Logging;
-import org.seedstack.jpa.JpaUnit;
 import org.seedstack.seed.transaction.Transactional;
 import org.slf4j.Logger;
 
@@ -115,7 +115,6 @@ public class ProductsResource {
     public Response product(@PathParam("productId") long productId) {
         ProductRepresentation productFinderProductById = productRepresentationFinder
                 .findProductById(productId);
-        productRepresentationFinder.findAllProducts();
         if (productFinderProductById == null) {
             return Response.status(Status.NOT_FOUND).build();
         }

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2015, The SeedStack authors <http://seedstack.org>
+ * Copyright (c) 2013-2016, The SeedStack authors <http://seedstack.org>
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -14,8 +14,8 @@ import org.seedstack.business.finder.Result;
 import org.seedstack.jpa.JpaUnit;
 import org.seedstack.seed.transaction.Transactional;
 
-import java.util.List;
 import java.util.Map;
+
 /**
  * ProductFinder interface
  */
@@ -23,29 +23,21 @@ import java.util.Map;
 @Transactional
 @JpaUnit("ecommerce-domain")
 public interface ProductRepresentationFinder {
-	/**
-	 * Find all products
-	 * @return List<ProductRepresentation>
-	 */
-    List<ProductRepresentation> findAllProducts();
     /**
      * Find a Product by id
+     *
      * @param value the product id
      * @return ProductRepresentation
      */
     ProductRepresentation findProductById(long value);
+
     /**
-     * Find Products by category id
-     * @param id the product id
-     * @return List<ProductRepresentation>
-     */
-    List<ProductRepresentation> findProductsByCategory(long id);
-    /**
-	 * Find all products with pagination
-     * @param range the range
+     * Find all products with pagination
+     *
+     * @param range    the range
      * @param criteria the criteria
      * @return the result
      */
-    Result<ProductRepresentation> findAllProducts(Range range, Map<String, Object> criteria );
+    Result<ProductRepresentation> findAllProducts(Range range, Map<String, Object> criteria);
 
 }
