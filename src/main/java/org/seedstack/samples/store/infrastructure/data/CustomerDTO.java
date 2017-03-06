@@ -5,28 +5,21 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package org.seedstack.samples.store.rest.customer;
+package org.seedstack.samples.store.infrastructure.data;
 
+import org.seedstack.business.assembler.DtoOf;
 import org.seedstack.business.assembler.MatchingEntityId;
 import org.seedstack.business.assembler.MatchingFactoryParameter;
+import org.seedstack.samples.store.domain.model.customer.Customer;
 
-public class CustomerRepresentation {
+@DtoOf(Customer.class)
+public class CustomerDTO {
     private String id;
     private String firstName;
     private String lastName;
     private String address;
     private String deliveryAddress;
-
-    public CustomerRepresentation() {
-    }
-
-    public CustomerRepresentation(String id, String firstName, String lastName, String address, String deliveryAddress) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.address = address;
-        this.deliveryAddress = deliveryAddress;
-    }
+    private String password;
 
     @MatchingEntityId
     @MatchingFactoryParameter(index = 0)
@@ -68,5 +61,13 @@ public class CustomerRepresentation {
 
     public void setDeliveryAddress(String deliveryAddress) {
         this.deliveryAddress = deliveryAddress;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

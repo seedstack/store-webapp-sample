@@ -5,10 +5,12 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package org.seedstack.samples.store.rest.category;
+package org.seedstack.samples.store.domain.model.customer;
 
-import org.seedstack.business.finder.RangeFinder;
+import org.seedstack.business.domain.GenericFactory;
 
-public interface CategoryRepresentationFinder extends RangeFinder<CategoryRepresentation, String> {
+public interface CustomerFactory extends GenericFactory<Customer> {
+
+    Customer create(String email);
 
 }

@@ -5,41 +5,22 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package org.seedstack.samples.store.rest.category;
-
+package org.seedstack.samples.store.infrastructure.data;
 
 import org.seedstack.business.assembler.DtoOf;
-import org.seedstack.business.assembler.MatchingEntityId;
 import org.seedstack.samples.store.domain.model.category.Category;
 
+import java.util.List;
+
 @DtoOf(Category.class)
-public class CategoryRepresentation {
-    private Long id;
+public class CategoryDTO {
     private String name;
     private String urlImg;
-
-    public CategoryRepresentation() {
-    }
-
-    public CategoryRepresentation(long id, String name, String urlImg) {
-        this.id = id;
-        this.name = name;
-        this.urlImg = urlImg;
-    }
-
-    @MatchingEntityId
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
+    private List<ProductDTO> products;
 
     public String getName() {
         return name;
     }
-
 
     public void setName(String name) {
         this.name = name;
@@ -51,5 +32,13 @@ public class CategoryRepresentation {
 
     public void setUrlImg(String urlImg) {
         this.urlImg = urlImg;
+    }
+
+    public List<ProductDTO> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<ProductDTO> products) {
+        this.products = products;
     }
 }

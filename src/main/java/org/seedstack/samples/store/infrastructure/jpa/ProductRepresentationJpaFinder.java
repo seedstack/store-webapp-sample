@@ -7,133 +7,93 @@
  */
 package org.seedstack.samples.store.infrastructure.jpa;
 
-import org.apache.commons.collections.MapUtils;
-import org.javatuples.Pair;
-import org.seedstack.business.assembler.FluentAssembler;
-import org.seedstack.business.finder.BaseRangeFinder;
 import org.seedstack.business.finder.Range;
 import org.seedstack.business.finder.Result;
-import org.seedstack.samples.store.domain.product.Product;
+import org.seedstack.samples.store.domain.model.product.Product;
 import org.seedstack.samples.store.rest.product.ProductRepresentation;
 import org.seedstack.samples.store.rest.product.ProductRepresentationFinder;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.List;
-import java.util.Map;
 
-/**
- * Product Finder JPA Implementation.
- */
-public class ProductRepresentationJpaFinder extends BaseRangeFinder<ProductRepresentation, Map<String, Object>> implements ProductRepresentationFinder {
+public class ProductRepresentationJpaFinder implements ProductRepresentationFinder {
+    private final EntityManager entityManager;
+
     @Inject
-    private EntityManager entityManager;
-    @Inject
-    private FluentAssembler fluentAssembler;
-
-    private String whereClauseEnd;
-
-    @Override
-    public Result<ProductRepresentation> findAllProducts(Range range, Map<String, Object> criteria) {
-        return this.find(range, criteria);
+    public ProductRepresentationJpaFinder(EntityManager entityManager) {
+        this.entityManager = entityManager;
     }
 
     @Override
-    public ProductRepresentation findProductById(long value) {
-        Product product = entityManager.find(Product.class, value);
-        if (product != null) {
-            return fluentAssembler.assemble(product).to(ProductRepresentation.class);
-        }
-        return null;
+    public Result<ProductRepresentation> findProductsFromCategory(Range range, long categoryId) {
+        return new Result<>(computeResultList(range, null, categoryId), range.getOffset(), computeFullRequestSize(null, categoryId));
     }
 
     @Override
-    protected long computeFullRequestSize(Map<String, Object> criteria) {
-        buildWhereClauseEnd("p", criteria);
-        Query query = entityManager.createQuery("select count(*) from Product p, Category cat where p.categoryId=cat.categoryId " + getWhereClauseEnd());
-        return (Long) query.getSingleResult();
+    public Result<ProductRepresentation> findProducts(Range range, String filter) {
+        return new Result<>(computeResultList(range, filter, null), range.getOffset(), computeFullRequestSize(filter, null));
     }
 
-    @Override
-    protected List<ProductRepresentation> computeResultList(Range range, Map<String, Object> criteria) {
-        TypedQuery<ProductRepresentation> query = entityManager.createQuery("select new " + ProductRepresentation.class.getName()
-                        + "(p.entityId, p.designation, p.summary, p.details, p.picture, p.price,p.categoryId,cat.name)"
-                        + " from Product p,Category cat where p.categoryId=cat.categoryId "
-                        + getWhereClauseEnd()
-                        + " order by p.categoryId, p.entityId",
-                ProductRepresentation.class);
-        query.setFirstResult((int) range.getOffset());
-        query.setMaxResults((int) range.getSize());
-        return query.getResultList();
+    private List<ProductRepresentation> computeResultList(Range range, String filter, Long categoryId) {
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<ProductRepresentation> cq = cb.createQuery(ProductRepresentation.class);
+        Root<Product> c = cq.from(Product.class);
+        cq.select(
+                cb.construct(
+                        ProductRepresentation.class,
+                        c.get("id"),
+                        c.get("designation"),
+                        c.get("summary"),
+                        c.get("details"),
+                        c.get("picture"),
+                        c.get("price")
+                )
+        );
+
+        applyCriteria(cb, c, cq, filter, categoryId);
+
+        return fillCriteria(entityManager.createQuery(cq), filter, categoryId)
+                .setFirstResult((int) range.getOffset())
+                .setMaxResults((int) range.getSize())
+                .getResultList();
     }
 
-    /**
-     * Custom where clause end built from criteria map.
-     * Note : this is not a reference implementation for building where clause !
-     *
-     * @param product  the product
-     * @param criteria the criteria
-     */
-    private void buildWhereClauseEnd(String product, Map<String, Object> criteria) {
+    private long computeFullRequestSize(String filter, Long categoryId) {
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Long> cq = cb.createQuery(Long.class);
+        Root<Product> r = cq.from(Product.class);
+        cq.select(cb.count(r));
 
-        StringBuilder whereClauseCriteria = new StringBuilder("");
-        String categoryIdKey = "categoryId";
-        String fieldSeparator = ".";
-        String space = " ";
-        String equal = " = ";
-        String upperCaseBegin = " upper(";
-        String parenthesesEnd = ") ";
-        String andOpenParentheses = " and ( ";
-        String or = " or ";
+        applyCriteria(cb, r, cq, filter, categoryId);
 
-        // Check and set CategoryId
-        Long categoryId = null;
-        if (criteria != null) {
-            categoryId = (Long) criteria.get(categoryIdKey);
-        }
+        return fillCriteria(entityManager.createQuery(cq), filter, categoryId).getSingleResult();
+    }
 
-        // filter on category
+    private void applyCriteria(CriteriaBuilder cb, Root<?> r, CriteriaQuery<?> cq, String filter, Long categoryId) {
         if (categoryId != null) {
-            whereClauseCriteria.append(" and p.categoryId = ").append(categoryId);
-            criteria.remove(categoryIdKey);
+            cq.where(cb.equal(r.get("categoryId"), cb.parameter(Long.class, "categoryId")));
         }
-
-        // filter on other fields' content
-        if (MapUtils.isNotEmpty(criteria)) {
-
-            Boolean firstClause = true;
-            for (Map.Entry<String, Object> entry : criteria.entrySet()) {
-
-                if (firstClause) {
-                    whereClauseCriteria.append(andOpenParentheses);
-                    firstClause = false;
-                } else {
-                    whereClauseCriteria.append(or);
-                }
-
-                //find string in fields is case insensitive
-                if (entry.getValue() instanceof Pair) {
-                    String operator = (String) ((Pair) entry.getValue()).getValue0();
-                    String value = (String) ((Pair) entry.getValue()).getValue1();
-                    whereClauseCriteria
-                            .append(upperCaseBegin).append(product).append(fieldSeparator).append(entry.getKey()).append(parenthesesEnd) //field
-                            .append(space).append(operator).append(space) // operator
-                            .append(upperCaseBegin).append(value).append(parenthesesEnd); //value
-                } else {
-                    whereClauseCriteria.append(product).append(fieldSeparator).append(entry.getKey()).append(equal).append(entry.getValue());
-                }
-            }
-            // if at least one clause was found, close the parentheses
-            if (!firstClause) {
-                whereClauseCriteria.append(parenthesesEnd);
-            }
+        if (filter != null) {
+            cq.where(cb.or(
+                    cb.like(r.get("designation"), cb.parameter(String.class, "filter")),
+                    cb.like(r.get("summary"), cb.parameter(String.class, "filter")),
+                    cb.like(r.get("details"), cb.parameter(String.class, "filter"))
+            ));
         }
-        whereClauseEnd = whereClauseCriteria.toString();
     }
 
-    private String getWhereClauseEnd() {
-        return whereClauseEnd;
+    private <T> TypedQuery<T> fillCriteria(TypedQuery<T> q, String filter, Long categoryId) {
+        if (categoryId != null) {
+            q.setParameter("categoryId", categoryId);
+        }
+        if (filter != null) {
+            q.setParameter("filter", "%" + filter + "%");
+        }
+        return q;
     }
 }

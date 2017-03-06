@@ -43,7 +43,6 @@ define([
                 newCustomer.id = customer.id;
                 newCustomer.firstName = customer.firstName;
                 newCustomer.lastName = customer.lastName;
-                newCustomer.password = customer.password;
                 newCustomer.address = customer.address;
                 newCustomer.deliveryAddress = customer.deliveryAddress;
 
@@ -73,11 +72,17 @@ define([
                 templateUrl: template,
                 controller: controller,
                 resolve: {
-                    customer: function () { return customer; },
-                    modalTitle: function() { return title; }
+                    customer: function () {
+                        return customer;
+                    },
+                    modalTitle: function () {
+                        return title;
+                    }
                 }
             });
-            modalInstance.result.then(function(data) { callback(data); });
+            modalInstance.result.then(function (data) {
+                callback(data);
+            });
         }
 
         function getCustomersSuccess(data) {
@@ -86,7 +91,7 @@ define([
         }
 
         function getCustomersError(err) {
-            throw new Error('could not get customers list ' + err.message);
+            throw new Error('could not get customers list ' + err);
         }
 
         function getCustomers() {
@@ -107,47 +112,47 @@ define([
             totalServerItems: 0
         };
 
-        $scope.pageChanged = function() {
+        $scope.pageChanged = function () {
             getCustomers();
         };
 
-        $scope.createNewCustomer = function() {
-            modal('Add a customer', 'modalCustomer.html', 'ModalCustomerController', {}, function(newCustomer) {
+        $scope.createNewCustomer = function () {
+            modal('Add a customer', 'modalCustomer.html', 'ModalCustomerController', {}, function (newCustomer) {
                 customerService.addCustomer(newCustomer,
-                    function() {
+                    function () {
                         getCustomers();
                     },
-                    function(err) {
-                        throw new Error('Could not add new customer ' + err.message);
+                    function (err) {
+                        throw new Error('Could not add new customer ' + err);
                     });
             });
         };
 
-        $scope.editCustomer = function(customer) {
+        $scope.editCustomer = function (customer) {
             modal('Edit customer', 'modalCustomer.html', 'ModalCustomerController', customer, function (customer) {
                 customerService.updateCustomer(customer,
                     function () {
                         getCustomers();
                     },
                     function (err) {
-                        throw new Error('Could not update customer ' + err.message);
+                        throw new Error('Could not update customer ' + err);
                     });
             });
         };
 
-        $scope.deleteCustomer = function(customer) {
+        $scope.deleteCustomer = function (customer) {
             modal('Delete a customer', 'modalConfirmCustomer.html', 'ModalCustomerController', customer, function (customer) {
                 customerService.deleteCustomer(customer,
-                    function() {
+                    function () {
                         getCustomers();
                     },
-                    function(err) {
-                        throw new Error('Could not delete customer ' + err.message);
+                    function (err) {
+                        throw new Error('Could not delete customer ' + err);
                     });
             });
         };
 
-        $scope.$watch('searchedCustomer', function(newSearch, oldSearch) {
+        $scope.$watch('searchedCustomer', function (newSearch, oldSearch) {
             if (newSearch !== oldSearch) {
                 searchCustomers(newSearch);
             }

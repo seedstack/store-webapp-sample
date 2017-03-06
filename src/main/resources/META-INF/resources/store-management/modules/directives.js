@@ -14,12 +14,12 @@ define([
 
     var seedStoreDirectives = angular.module('storeManagementDirectives', []);
 
-    seedStoreDirectives.directive('seedStoreNavbar', [function() {
-      return {
-          restrict: 'A',
-          template: navbarTemplate,
-          replace: true
-      };
+    seedStoreDirectives.directive('seedStoreNavbar', [function () {
+        return {
+            restrict: 'A',
+            template: navbarTemplate,
+            replace: true
+        };
     }]);
 
     return {

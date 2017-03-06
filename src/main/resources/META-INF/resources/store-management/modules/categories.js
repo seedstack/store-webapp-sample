@@ -22,7 +22,6 @@ define([
         var Category = $resource(require.toUrl(config.apiUrl + 'categories/:categoryId'), {categoryId: '@id'}, {
             'update': {method: 'PUT'}
         });
-
         var ProductsByCategory = $resource(require.toUrl(config.apiUrl + 'categories/:categoryId/products'));
 
         return {
@@ -34,7 +33,7 @@ define([
                 return Category.query({pageIndex: pageIndex - 1, pageSize: pageSize}, success, error);
             },
 
-            paginatedProductsByCategrory: function (categoryId, pageIndex, pageSize, success, error) {
+            paginatedProductsByCategory: function (categoryId, pageIndex, pageSize, success, error) {
                 return ProductsByCategory.query({
                     categoryId: categoryId,
                     pageIndex: pageIndex - 1,
@@ -91,11 +90,17 @@ define([
                 templateUrl: template,
                 controller: controller,
                 resolve: {
-                    category: function () { return category; },
-                    modalTitle: function() { return title; }
+                    category: function () {
+                        return category;
+                    },
+                    modalTitle: function () {
+                        return title;
+                    }
                 }
             });
-            modalInstance.result.then(function(data) { callback(data); });
+            modalInstance.result.then(function (data) {
+                callback(data);
+            });
         }
 
         function getCategoriesSuccess(data) {
@@ -110,7 +115,7 @@ define([
         }
 
         function getCategoriesError(err) {
-            throw new Error('Could not get categories ' + err.message);
+            throw new Error('Could not get categories ' + err);
         }
 
         function getCategories() {
@@ -118,7 +123,7 @@ define([
         }
 
         function getProductsByCategory(categoryId) {
-            categoryService.paginatedProductsByCategrory(categoryId, $scope.pagingProducts.currentPage, $scope.pagingProducts.pageSize,
+            categoryService.paginatedProductsByCategory(categoryId, $scope.pagingProducts.currentPage, $scope.pagingProducts.pageSize,
                 function (data) {
                     $scope.paginatedProducts = data;
                     $scope.pagingProducts.totalServerItems = $scope.paginatedProducts.$viewInfo.resultSize;
@@ -148,56 +153,56 @@ define([
             totalServerItems: 0
         };
 
-        $scope.pageCategoryChanged = function() {
+        $scope.pageCategoryChanged = function () {
             getCategories();
         };
 
-        $scope.pageProductChanged = function() {
+        $scope.pageProductChanged = function () {
             getProductsByCategory($scope.activeCategory.id);
         };
 
-        $scope.setActiveCategory = function(category) {
+        $scope.setActiveCategory = function (category) {
             $scope.activeCategory = category;
             getProductsByCategory($scope.activeCategory.id, $scope.pagingProducts);
         };
 
-        $scope.createNewCategory = function() {
-            modal('Add a category', 'modalCategory.html', 'ModalCategoryController', {}, function(newCategory) {
+        $scope.createNewCategory = function () {
+            modal('Add a category', 'modalCategory.html', 'ModalCategoryController', {}, function (newCategory) {
                 categoryService.addCategory(newCategory,
-                    function() {
+                    function () {
                         getCategories();
                     },
-                    function(err) {
-                        throw new Error('Could not add new category ' + err.message);
+                    function (err) {
+                        throw new Error('Could not add new category ' + err);
                     });
             });
         };
 
-        $scope.editCategory = function(category) {
+        $scope.editCategory = function (category) {
             modal('Edit category', 'modalCategory.html', 'ModalCategoryController', category, function (category) {
                 categoryService.updateCategory(category,
                     function () {
                         getCategories();
                     },
                     function (err) {
-                        throw new Error('Could not update category ' + err.message);
+                        throw new Error('Could not update category ' + err);
                     });
             });
         };
 
-        $scope.deleteCategory = function(category) {
+        $scope.deleteCategory = function (category) {
             modal('Delete a category', 'modalConfirmCategory.html', 'ModalCategoryController', category, function (category) {
                 categoryService.deleteCategory(category,
-                    function() {
+                    function () {
                         getCategories();
                     },
-                    function(err) {
-                        throw new Error('Could not delete category ' + err.message);
+                    function (err) {
+                        throw new Error('Could not delete category ' + err);
                     });
             });
         };
 
-        $scope.$watch('searchedCategory', function(newSearch, oldSearch) {
+        $scope.$watch('searchedCategory', function (newSearch, oldSearch) {
             if (newSearch !== oldSearch) {
                 searchCategories(newSearch);
             }

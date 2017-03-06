@@ -12,41 +12,53 @@
     <div class="row customer-search-field">
         <div class="col-md-2 col-xs-6">
 
-                <form id="search-user" novalidate>
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="fa fa-search"></i></span>
-                        <input data-ng-model="searchedCustomer" data-ng-model-options="{debounce: 1000}" type="text" name="input" id="search-user-input" class="form-control input-xs" placeholder="find customer...">
-                    </div>
-                </form>
+            <form id="search-user" novalidate>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                    <input data-ng-model="searchedCustomer" data-ng-model-options="{debounce: 1000}" type="text"
+                           name="input" id="search-user-input" class="form-control input-xs"
+                           placeholder="find customer...">
+                </div>
+            </form>
 
         </div>
         <div class="col-lg-3 col-xs-6">
-            <button data-ng-click="createNewCustomer()" class="btn btn-sm btn-default"><i class="fa fa-plus"></i> Add</button>
+            <button data-ng-click="createNewCustomer()" class="btn btn-sm btn-default"><i class="fa fa-plus"></i> Add
+            </button>
         </div>
     </div>
     <div class="store-pager customer-pager" data-ng-show="paginatedCustomers.length">
-        <div data-pagination data-ng-model="pagination.currentPage" data-items-per-page="pagination.pageSize" data-total-items="pagination.totalServerItems" data-ng-change="pageChanged()" data-max-size="5" class="pagination-sm" data-boundary-links="true" data-rotate="false"></div>
+        <div data-pagination data-ng-model="pagination.currentPage" data-items-per-page="pagination.pageSize"
+             data-total-items="pagination.totalServerItems" data-ng-change="pageChanged()" data-max-size="5"
+             class="pagination-sm" data-boundary-links="true" data-rotate="false"></div>
     </div>
     <div class="row">
         <div class="col-md-12">
-            <div class="customer-list" data-ng-class="{'col-md-4 col-md-offset-4': searchedCustomer}" data-ng-show="paginatedCustomers.length">
+            <div class="customer-list" data-ng-class="{'col-md-4 col-md-offset-4': searchedCustomer}"
+                 data-ng-show="paginatedCustomers.length">
                 <div class="row">
-                    <div  data-ng-class="{'col-lg-4 col-md-6': !searchedCustomer, 'col-lg-12 col-md-12': searchedCustomer }" data-ng-repeat="customer in paginatedCustomers">
+                    <div data-ng-class="{'col-lg-4 col-md-6': !searchedCustomer, 'col-lg-12 col-md-12': searchedCustomer }"
+                         data-ng-repeat="customer in paginatedCustomers">
                         <div class="customer-box">
                             <div class="name-location">
                                 <ul class="list-inline pull-right">
-                                    <li><button data-ng-click="editCustomer(customer)" class="btn btn-default btn-sm"><i class="fa fa-pencil"></i> Edit </button></li>
-                                    <li><button data-ng-click="deleteCustomer(customer)" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Delete </button></li>
+                                    <li>
+                                        <button data-ng-click="editCustomer(customer)" class="btn btn-default btn-sm"><i
+                                                class="fa fa-pencil"></i> Edit
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button data-ng-click="deleteCustomer(customer)" class="btn btn-danger btn-sm">
+                                            <i class="fa fa-trash"></i> Delete
+                                        </button>
+                                    </li>
                                 </ul>
-                                <img src="images/user1.png" height="50px" width="50px" alt="user" />
+                                <img src="images/user1.png" height="50px" width="50px" alt="user"/>
                                 <strong>{{ customer.firstName }} {{ customer.lastName }}</strong>
                             </div>
                             <hr/>
                             <div>
                                 <span><i class="fa fa-envelope"></i> {{ customer.id }} </span>
-                            </div>
-                            <div>
-                                <span><i class="fa fa-unlock-alt"></i> {{ customer.password }} </span>
                             </div>
                             <div>
                                 <span><i class="fa fa-map-marker"></i> {{ customer.address }} </span>
@@ -61,7 +73,9 @@
         </div>
     </div><!--/end row-->
     <div class="store-pager customer-pager" data-ng-show="paginatedCustomers.length">
-        <div data-pagination data-ng-model="pagination.currentPage" data-items-per-page="pagination.pageSize" data-total-items="pagination.totalServerItems" data-ng-change="pageChanged()" data-max-size="5" class="pagination-sm" data-boundary-links="true" data-rotate="false"></div>
+        <div data-pagination data-ng-model="pagination.currentPage" data-items-per-page="pagination.pageSize"
+             data-total-items="pagination.totalServerItems" data-ng-change="pageChanged()" data-max-size="5"
+             class="pagination-sm" data-boundary-links="true" data-rotate="false"></div>
     </div>
     <!-- Modal to add/edit a new customer -->
     <script type="text/ng-template" id="modalCustomer.html">
@@ -69,38 +83,39 @@
             <h3 class="modal-title"> {{ modalTitle }} </h3>
         </div>
         <div class="modal-body">
-           <div class="row">
-               <form name="add-new-customer">
-                   <div class="form-group col-md-6">
-                       <label for="customer-firstname" class="control-label">First name:</label>
-                       <input name="firstName" data-ng-model="customer.firstName" type="text" class="form-control" id="customer-firstname" required>
-                   </div>
-                   <div class="form-group col-md-6">
-                       <label for="customer-lastname" class="control-label">Last name:</label>
-                       <input name="lastName" data-ng-model="customer.lastName" type="text" class="form-control" id="customer-lastname" required>
-                   </div>
-                   <div class="form-group col-md-6">
-                       <label for="customer-email" class="control-label">Email:</label>
-                       <input name="email" data-ng-model="customer.id" type="text" class="form-control" id="customer-email" required>
-                   </div>
-                   <div class="form-group col-md-6">
-                       <label for="customer-password" class="control-label">Password:</label>
-                       <input name="password" data-ng-model="customer.password" type="text" class="form-control" id="customer-password" required>
-                   </div>
-                   <div class="form-group col-md-12">
-                       <label for="customer-address" class="control-label">Address:</label>
-                       <textarea name="address" data-ng-model="customer.address" class="form-control" id="customer-address" required></textarea>
-                   </div>
-                   <div class="form-group col-md-12">
-                       <label for="customer-deliveryAddress" class="control-label">Delivery Adress:</label>
-                       <textarea name="deliveryAddress" data-ng-model="customer.deliveryAddress" class="form-control" id="customer-deliveryAddress" required></textarea>
-                   </div>
-               </form>
-           </div>
+            <div class="row">
+                <form name="add-new-customer">
+                    <div class="form-group col-md-6">
+                        <label for="customer-firstname" class="control-label">First name:</label>
+                        <input name="firstName" data-ng-model="customer.firstName" type="text" class="form-control"
+                               id="customer-firstname" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="customer-lastname" class="control-label">Last name:</label>
+                        <input name="lastName" data-ng-model="customer.lastName" type="text" class="form-control"
+                               id="customer-lastname" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="customer-email" class="control-label">Email:</label>
+                        <input name="email" data-ng-model="customer.id" type="text" class="form-control"
+                               id="customer-email" required>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label for="customer-address" class="control-label">Address:</label>
+                        <textarea name="address" data-ng-model="customer.address" class="form-control"
+                                  id="customer-address" required></textarea>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label for="customer-deliveryAddress" class="control-label">Delivery Adress:</label>
+                        <textarea name="deliveryAddress" data-ng-model="customer.deliveryAddress" class="form-control"
+                                  id="customer-deliveryAddress" required></textarea>
+                    </div>
+                </form>
+            </div>
         </div>
         <div class="modal-footer">
-            <button class="btn btn-primary" ng-click="ok()">OK</button>
-            <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+            <button class="btn btn-primary" data-ng-click="ok()">OK</button>
+            <button class="btn btn-warning" data-ng-click="cancel()">Cancel</button>
         </div>
     </script>
     <!-- Modal to delete a customer -->
@@ -109,11 +124,11 @@
             <h3 class="modal-title"> {{ modalTitle }} </h3>
         </div>
         <div class="modal-body">
-                Delete customer {{ customer.firstName }} {{ customer.lastName }} ?
+            Delete customer {{ customer.firstName }} {{ customer.lastName }} ?
         </div>
         <div class="modal-footer">
-            <button class="btn btn-primary" ng-click="ok()">OK</button>
-            <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+            <button class="btn btn-primary" data-ng-click="ok()">OK</button>
+            <button class="btn btn-warning" data-ng-click="cancel()">Cancel</button>
         </div>
     </script>
 </div>

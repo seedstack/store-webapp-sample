@@ -28,9 +28,9 @@
 }
 
 .product-detail-image {
-   max-height: 400px;
-   max-width: 400px;
-   margin: 0 auto;
+    max-height: 400px;
+    max-width: 400px;
+    margin: 0 auto;
 }
 
 .product-detail-description {

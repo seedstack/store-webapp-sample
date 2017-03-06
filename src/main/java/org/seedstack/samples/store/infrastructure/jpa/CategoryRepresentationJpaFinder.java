@@ -7,119 +7,72 @@
  */
 package org.seedstack.samples.store.infrastructure.jpa;
 
-import org.apache.commons.collections.MapUtils;
-import org.javatuples.Pair;
-import org.seedstack.business.assembler.FluentAssembler;
 import org.seedstack.business.finder.BaseRangeFinder;
 import org.seedstack.business.finder.Range;
-import org.seedstack.business.finder.Result;
-import org.seedstack.samples.store.domain.category.Category;
+import org.seedstack.samples.store.domain.model.category.Category;
 import org.seedstack.samples.store.rest.category.CategoryRepresentation;
 import org.seedstack.samples.store.rest.category.CategoryRepresentationFinder;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.List;
-import java.util.Map;
 
-/**
- * Category Finder JPA Implementation.
- */
-public class CategoryRepresentationJpaFinder extends BaseRangeFinder<CategoryRepresentation, Map<String, Object>> implements CategoryRepresentationFinder {
+public class CategoryRepresentationJpaFinder extends BaseRangeFinder<CategoryRepresentation, String> implements CategoryRepresentationFinder {
+    private final EntityManager entityManager;
 
     @Inject
-    private EntityManager entityManager;
-    @Inject
-    private FluentAssembler fluentAssembler;
+    public CategoryRepresentationJpaFinder(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
 
     @Override
-    public CategoryRepresentation findCategoryById(long value) {
-        Category category = entityManager.find(Category.class, value);
-        if (category != null) {
-            return fluentAssembler.assemble(category).to(CategoryRepresentation.class);
+    public List<CategoryRepresentation> computeResultList(Range range, String filter) {
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<CategoryRepresentation> cq = cb.createQuery(CategoryRepresentation.class);
+        Root<Category> r = cq.from(Category.class);
+        cq.select(
+                cb.construct(
+                        CategoryRepresentation.class,
+                        r.get("id"),
+                        r.get("name"),
+                        r.get("urlImg")
+                )
+        );
+
+        applyCriteria(cb, r, cq, filter);
+
+        return fillCriteria(entityManager.createQuery(cq), filter)
+                .setFirstResult((int) range.getOffset())
+                .setMaxResults((int) range.getSize())
+                .getResultList();
+    }
+
+    @Override
+    public long computeFullRequestSize(String filter) {
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Long> cq = cb.createQuery(Long.class);
+        Root<Category> r = cq.from(Category.class);
+        cq.select(cb.count(r));
+
+        applyCriteria(cb, r, cq, filter);
+
+        return fillCriteria(entityManager.createQuery(cq), filter).getSingleResult();
+    }
+
+    private void applyCriteria(CriteriaBuilder cb, Root<?> r, CriteriaQuery<?> cq, String filter) {
+        if (filter != null) {
+            cq.where(cb.like(r.get("name"), cb.parameter(String.class, "filter")));
         }
-        return null;
     }
 
-    @Override
-    public List<CategoryRepresentation> findAllCategory() {
-        TypedQuery<CategoryRepresentation> query = entityManager.createQuery(
-                "select new " + CategoryRepresentation.class.getName()
-                        + " (c.categoryId, c.name,c.urlImg) from Category c order by c.categoryId",
-                CategoryRepresentation.class);
-        return query.getResultList();
-    }
-
-    @Override
-    public Result<CategoryRepresentation> findAllCategory(Range range, Map<String, Object> criteria) {
-        return this.find(range, criteria);
-    }
-
-    @Override
-    protected List<CategoryRepresentation> computeResultList(Range range,
-                                                             Map<String, Object> criteria) {
-
-        TypedQuery<CategoryRepresentation> query = entityManager.createQuery(
-                "select new " + CategoryRepresentation.class.getName()
-                        + " (c.categoryId, c.name,c.urlImg) from "
-                        + " Category c" + whereCategoryClause("c", criteria)
-                        + " order by c.categoryId", CategoryRepresentation.class);
-
-        query.setFirstResult((int) range.getOffset());
-        query.setMaxResults((int) range.getSize());
-        return query.getResultList();
-    }
-
-    /**
-     * Custom where clause building from criteria map
-     * Note : this is not a reference implementation for building where clause !
-     *
-     * @param category
-     * @param criteria
-     * @return
-     */
-    private String whereCategoryClause(String category, Map<String, Object> criteria) {
-        if (MapUtils.isEmpty(criteria)) {
-            return "";
+    private <T> TypedQuery<T> fillCriteria(TypedQuery<T> q, String filter) {
+        if (filter != null) {
+            q.setParameter("filter", "%" + filter + "%");
         }
-        String fieldSeparator = ".";
-        String space = " ";
-        String equal = " = ";
-        String upperCaseBegin = " upper(";
-        String parenthesesEnd = ") ";
-        String or = " or ";
-        String where = " where ";
-
-        StringBuilder whereClauseCriteria = new StringBuilder(where);
-        Boolean firstClause = true;
-        for (Map.Entry<String, Object> entry : criteria.entrySet()) {
-            if (!firstClause) {
-                whereClauseCriteria.append(or);
-            } else {
-                firstClause = false;
-            }
-
-            //find string in fields is case insensitive
-            if (entry.getValue() instanceof Pair) {
-                String operator = (String) ((Pair) entry.getValue()).getValue0();
-                String value = (String) ((Pair) entry.getValue()).getValue1();
-                whereClauseCriteria
-                        .append(upperCaseBegin).append(category).append(fieldSeparator).append(entry.getKey()).append(parenthesesEnd)//field
-                        .append(space).append(operator).append(space)//operator
-                        .append(upperCaseBegin).append(value).append(parenthesesEnd);//value
-            } else {
-                whereClauseCriteria.append(category).append(fieldSeparator).append(entry.getKey()).append(equal).append(entry.getValue());
-            }
-        }
-        return whereClauseCriteria.toString();
-    }
-
-    @Override
-    protected long computeFullRequestSize(Map<String, Object> criteria) {
-        Query query = entityManager.createQuery("select count(*) from "
-                + "Category c" + whereCategoryClause("c", criteria));
-        return (Long) query.getSingleResult();
+        return q;
     }
 }

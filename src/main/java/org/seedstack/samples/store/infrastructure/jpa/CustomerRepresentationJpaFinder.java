@@ -7,13 +7,9 @@
  */
 package org.seedstack.samples.store.infrastructure.jpa;
 
-import org.seedstack.business.assembler.FluentAssembler;
 import org.seedstack.business.finder.BaseRangeFinder;
 import org.seedstack.business.finder.Range;
-import org.seedstack.business.finder.Result;
-import org.seedstack.samples.store.domain.customer.Customer;
-import org.seedstack.samples.store.domain.customer.CustomerFactory;
-import org.seedstack.samples.store.domain.customer.CustomerId;
+import org.seedstack.samples.store.domain.model.customer.Customer;
 import org.seedstack.samples.store.rest.customer.CustomerRepresentation;
 import org.seedstack.samples.store.rest.customer.CustomerRepresentationFinder;
 
@@ -22,104 +18,66 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-/**
- * Customer Finder JPA Implementation.
- */
-public class CustomerRepresentationJpaFinder extends BaseRangeFinder<CustomerRepresentation, Map<String, Object>> implements CustomerRepresentationFinder {
+public class CustomerRepresentationJpaFinder extends BaseRangeFinder<CustomerRepresentation, String> implements CustomerRepresentationFinder {
+    private final EntityManager entityManager;
 
     @Inject
-    private EntityManager entityManager;
-    @Inject
-    private FluentAssembler fluentAssembler;
-    @Inject
-    private CustomerFactory customerFactory;
-
-    @Override
-    public List<CustomerRepresentation> findAllCustomers() {
-
-        TypedQuery<CustomerRepresentation> query = entityManager
-                .createQuery(
-                        "select new "
-                                + CustomerRepresentation.class.getName()
-                                + "(c.entityId.customerId, c.firstName, c.lastName,c.password,c.address,"
-                                + "c.deliveryAddress )" + "from Customer c ",
-                        CustomerRepresentation.class);
-        return query.getResultList();
+    public CustomerRepresentationJpaFinder(EntityManager entityManager) {
+        this.entityManager = entityManager;
     }
 
     @Override
-    public CustomerRepresentation findCustomerById(String value) {
-        CustomerId id = customerFactory.createCustomerId(value);
-        Customer customer = entityManager.find(Customer.class, id);
-
-        if (customer != null) {
-            return fluentAssembler.assemble(customer).to(CustomerRepresentation.class);
-        }
-        return null;
-    }
-
-
-    @Override
-    public Result<CustomerRepresentation> findAllCustomers(Range range, Map<String, Object> criteria) {
-        return this.find(range, criteria);
-    }
-
-    private CriteriaQuery<Customer> getCriteriaQuery(Map<String, Object> criteria) {
-        String searchStringKey = "searchString";
-
+    public List<CustomerRepresentation> computeResultList(Range range, String filter) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-        CriteriaQuery<Customer> q = cb.createQuery(Customer.class);
-        Root<Customer> customer = q.from(Customer.class);
-        q.select(customer);
+        CriteriaQuery<CustomerRepresentation> cq = cb.createQuery(CustomerRepresentation.class);
+        Root<Customer> r = cq.from(Customer.class);
+        cq.select(
+                cb.construct(
+                        CustomerRepresentation.class,
+                        r.get("id").get("value"),
+                        r.get("firstName"),
+                        r.get("lastName"),
+                        r.get("address"),
+                        r.get("deliveryAddress")
+                )
+        );
 
-        List<Predicate> restrictions = new ArrayList<Predicate>();
+        applyCriteria(cb, r, cq, filter);
 
-        // Check and set searchString
-        String searchString = null;
-        if (criteria != null) {
-            searchString = (String) criteria.get(searchStringKey);
+        return fillCriteria(entityManager.createQuery(cq), filter)
+                .setFirstResult((int) range.getOffset())
+                .setMaxResults((int) range.getSize())
+                .getResultList();
+    }
+
+    @Override
+    public long computeFullRequestSize(String filter) {
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Long> cq = cb.createQuery(Long.class);
+        Root<Customer> r = cq.from(Customer.class);
+        cq.select(cb.count(r));
+
+        applyCriteria(cb, r, cq, filter);
+
+        return fillCriteria(entityManager.createQuery(cq), filter).getSingleResult();
+    }
+
+    private void applyCriteria(CriteriaBuilder cb, Root<?> r, CriteriaQuery<?> cq, String filter) {
+        if (filter != null) {
+            cq.where(cb.or(
+                    cb.like(r.get("firstName"), cb.parameter(String.class, "filter")),
+                    cb.like(r.get("lastName"), cb.parameter(String.class, "filter"))
+            ));
         }
+    }
 
-        if (searchString != null) {
-            Field[] fields = Customer.class.getDeclaredFields();
-            for (Field field : fields) {
-                if (String.class.isAssignableFrom(field.getType())) {
-                    restrictions.add(cb.like(cb.upper(customer.<String>get(field.getName())), "%" + searchString.toUpperCase() + "%"));
-                }
-            }
-        }
-        if (!restrictions.isEmpty()) {
-            q.where(cb.or(restrictions.toArray(new Predicate[restrictions.size()])));
+    private <T> TypedQuery<T> fillCriteria(TypedQuery<T> q, String filter) {
+        if (filter != null) {
+            q.setParameter("filter", "%" + filter + "%");
         }
         return q;
-    }
-
-    @Override
-    protected long computeFullRequestSize(Map<String, Object> criteria) {
-        TypedQuery<Customer> query = entityManager.createQuery(getCriteriaQuery(criteria));
-        return query.getResultList().size();
-    }
-
-    @Override
-    protected List<CustomerRepresentation> computeResultList(Range range,
-                                                             Map<String, Object> criteria) {
-
-        TypedQuery<Customer> query = entityManager.createQuery(getCriteriaQuery(criteria));
-        query.setFirstResult((int) range.getOffset());
-        query.setMaxResults((int) range.getSize());
-
-        List<CustomerRepresentation> result = new ArrayList<CustomerRepresentation>();
-        for (Customer customer : query.getResultList()) {
-            result.add(fluentAssembler.assemble(customer).to(CustomerRepresentation.class));
-        }
-
-        return result;
     }
 }

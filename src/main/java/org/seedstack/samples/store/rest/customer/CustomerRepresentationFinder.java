@@ -7,45 +7,8 @@
  */
 package org.seedstack.samples.store.rest.customer;
 
+import org.seedstack.business.finder.RangeFinder;
 
-import org.seedstack.business.finder.Finder;
-import org.seedstack.business.finder.Range;
-import org.seedstack.business.finder.Result;
-import org.seedstack.jpa.JpaUnit;
-import org.seedstack.seed.transaction.Transactional;
+public interface CustomerRepresentationFinder extends RangeFinder<CustomerRepresentation, String> {
 
-import java.util.List;
-import java.util.Map;
-
-/**
- * CustomerFinder interface.
- */
-@Finder
-@Transactional
-@JpaUnit("ecommerce-domain")
-public interface CustomerRepresentationFinder {
-
-    /**
-     * Find all customers
-     *
-     * @return List<CustomerRepresentation>
-     */
-    List<CustomerRepresentation> findAllCustomers();
-
-    /**
-     * Find a customer by id
-     *
-     * @param value the customer id
-     * @return CustomerRepresentation
-     */
-    CustomerRepresentation findCustomerById(String value);
-
-    /**
-     * Find all customers - with pagination
-     *
-     * @param range    the range
-     * @param criteria the criteria
-     * @return Result<CustomerRepresentation>
-     */
-    Result<CustomerRepresentation> findAllCustomers(Range range, Map<String, Object> criteria);
 }

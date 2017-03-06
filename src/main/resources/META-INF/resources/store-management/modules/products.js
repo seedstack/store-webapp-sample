@@ -114,7 +114,7 @@ define([
         }
 
         function getProductsError(err) {
-            throw new Error('could not get products list ' + err.message);
+            throw new Error('could not get products list ' + err);
         }
 
         function getCategories() {
@@ -156,7 +156,7 @@ define([
                         getProducts();
                     },
                     function (err) {
-                        throw new Error('Could not add new product ' + err.message);
+                        throw new Error('Could not add new product ' + err);
                     });
             });
         };
@@ -168,7 +168,7 @@ define([
                         getProducts();
                     },
                     function (err) {
-                        throw new Error('Could not update product ' + err.message);
+                        throw new Error('Could not update product ' + err);
                     });
             });
         };
@@ -180,7 +180,7 @@ define([
                         getProducts();
                     },
                     function (err) {
-                        throw new Error('Could not delete product ' + err.message);
+                        throw new Error('Could not delete product ' + err);
                     });
             });
         };

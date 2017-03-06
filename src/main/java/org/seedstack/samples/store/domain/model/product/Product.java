@@ -5,41 +5,41 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package org.seedstack.samples.store.rest.product;
+package org.seedstack.samples.store.domain.model.product;
 
-import org.seedstack.business.assembler.DtoOf;
-import org.seedstack.business.assembler.MatchingEntityId;
-import org.seedstack.samples.store.domain.model.product.Product;
+import org.seedstack.business.domain.BaseAggregateRoot;
+import org.seedstack.business.domain.Identity;
+import org.seedstack.business.test.identity.InMemorySequenceHandler;
 
-@DtoOf(Product.class)
-public class ProductRepresentation {
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
+public class Product extends BaseAggregateRoot<Long> {
+    @Id
+    @Identity(handler = InMemorySequenceHandler.class)
     private Long id;
     private String designation;
+    @Column(length = 500)
     private String summary;
+    @Column(length = 10000)
     private String details;
     private String picture;
     private Double price;
     private Long categoryId;
 
-    public ProductRepresentation() {
+    private Product() {
+        // for JPA
     }
 
-    public ProductRepresentation(long id, String designation, String summary, String details, String picture, Double price) {
+    Product(long id) {
+        // used by the default factory only
         this.id = id;
-        this.designation = designation;
-        this.summary = summary;
-        this.details = details;
-        this.picture = picture;
-        this.price = price;
     }
 
-    @MatchingEntityId
     public Long getId() {
         return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public String getDesignation() {
@@ -82,11 +82,16 @@ public class ProductRepresentation {
         this.price = price;
     }
 
-    public Long getCategoryId() {
+    public long getCategoryId() {
         return categoryId;
     }
 
-    public void setCategoryId(Long categoryId) {
+    public void setCategoryId(long categoryId) {
         this.categoryId = categoryId;
+    }
+
+    @Override
+    public Long getEntityId() {
+        return id;
     }
 }

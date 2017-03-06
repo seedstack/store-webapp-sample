@@ -5,42 +5,19 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package org.seedstack.samples.store.rest.product;
+package org.seedstack.samples.store.infrastructure.data;
 
 import org.seedstack.business.assembler.DtoOf;
-import org.seedstack.business.assembler.MatchingEntityId;
 import org.seedstack.samples.store.domain.model.product.Product;
 
 @DtoOf(Product.class)
-public class ProductRepresentation {
-    private Long id;
+public class ProductDTO {
     private String designation;
     private String summary;
     private String details;
     private String picture;
     private Double price;
-    private Long categoryId;
-
-    public ProductRepresentation() {
-    }
-
-    public ProductRepresentation(long id, String designation, String summary, String details, String picture, Double price) {
-        this.id = id;
-        this.designation = designation;
-        this.summary = summary;
-        this.details = details;
-        this.picture = picture;
-        this.price = price;
-    }
-
-    @MatchingEntityId
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
+    private String category;
 
     public String getDesignation() {
         return designation;
@@ -82,11 +59,11 @@ public class ProductRepresentation {
         this.price = price;
     }
 
-    public Long getCategoryId() {
-        return categoryId;
+    public String getCategory() {
+        return category;
     }
 
-    public void setCategoryId(Long categoryId) {
-        this.categoryId = categoryId;
+    public void setCategory(String category) {
+        this.category = category;
     }
 }

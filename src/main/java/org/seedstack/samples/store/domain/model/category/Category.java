@@ -5,30 +5,33 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package org.seedstack.samples.store.rest.category;
+package org.seedstack.samples.store.domain.model.category;
 
+import org.seedstack.business.domain.BaseAggregateRoot;
+import org.seedstack.business.domain.Identity;
+import org.seedstack.business.test.identity.InMemorySequenceHandler;
 
-import org.seedstack.business.assembler.DtoOf;
-import org.seedstack.business.assembler.MatchingEntityId;
-import org.seedstack.samples.store.domain.model.category.Category;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
-@DtoOf(Category.class)
-public class CategoryRepresentation {
+@Entity
+public class Category extends BaseAggregateRoot<Long> {
+    @Id
+    @Identity(handler = InMemorySequenceHandler.class)
     private Long id;
     private String name;
     private String urlImg;
 
-    public CategoryRepresentation() {
+    private Category() {
+        // for JPA
     }
 
-    public CategoryRepresentation(long id, String name, String urlImg) {
+    Category(long id) {
+        // used by the default factory
         this.id = id;
-        this.name = name;
-        this.urlImg = urlImg;
     }
 
-    @MatchingEntityId
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
@@ -40,7 +43,6 @@ public class CategoryRepresentation {
         return name;
     }
 
-
     public void setName(String name) {
         this.name = name;
     }
@@ -51,5 +53,10 @@ public class CategoryRepresentation {
 
     public void setUrlImg(String urlImg) {
         this.urlImg = urlImg;
+    }
+
+    @Override
+    public Long getEntityId() {
+        return id;
     }
 }

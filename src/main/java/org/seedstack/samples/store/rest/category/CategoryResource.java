@@ -7,198 +7,120 @@
  */
 package org.seedstack.samples.store.rest.category;
 
-import org.apache.commons.lang.StringUtils;
-import org.javatuples.Pair;
 import org.seedstack.business.assembler.FluentAssembler;
 import org.seedstack.business.assembler.dsl.AggregateNotFoundException;
+import org.seedstack.business.domain.Repository;
 import org.seedstack.business.finder.Range;
 import org.seedstack.business.finder.Result;
-import org.seedstack.business.view.ChunkedView;
 import org.seedstack.business.view.PaginatedView;
-import org.seedstack.samples.store.domain.category.Category;
-import org.seedstack.samples.store.domain.category.CategoryRepository;
+import org.seedstack.jpa.JpaUnit;
+import org.seedstack.samples.store.domain.model.category.Category;
+import org.seedstack.samples.store.rest.Paging;
 import org.seedstack.samples.store.rest.product.ProductRepresentation;
 import org.seedstack.samples.store.rest.product.ProductRepresentationFinder;
-import org.seedstack.jpa.JpaUnit;
 import org.seedstack.seed.transaction.Transactional;
 
 import javax.inject.Inject;
-import javax.ws.rs.*;
+import javax.ws.rs.BadRequestException;
+import javax.ws.rs.BeanParam;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.NotFoundException;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import java.net.URI;
-import java.util.HashMap;
-import java.util.Map;
 
 import static org.seedstack.business.assembler.AssemblerTypes.MODEL_MAPPER;
 
-/**
- * A REST resource to manage categories.
- */
+
 @Path("/categories")
 @Transactional
-@JpaUnit("ecommerce-domain")
+@JpaUnit("store")
 public class CategoryResource {
-
-    @Inject
-    private CategoryRepresentationFinder categoryRepresentationFinder;
-
-    @Inject
-    private CategoryRepository categoryRepository;
-
-    @Inject
-    private ProductRepresentationFinder productRepresentationFinder;
-
-    @Inject
-    private FluentAssembler fluentAssembler;
-
+    private final CategoryRepresentationFinder categoryRepresentationFinder;
+    private final ProductRepresentationFinder productRepresentationFinder;
+    private final Repository<Category, Long> categoryRepository;
+    private final FluentAssembler fluentAssembler;
     @Context
     private UriInfo uriInfo;
 
-    /**
-     * Gets the category list with pagination and search parameters.
-     *
-     * @param searchString the search string
-     * @param pageIndex    the page index
-     * @param pageSize     the page size
-     * @param chunkOffset  the chunk offset
-     * @param chunkSize    the chunk size
-     * @return the paginated list of categories
-     */
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response list(@QueryParam("searchString") String searchString,
-                         @QueryParam("pageIndex") Long pageIndex,
-                         @QueryParam("pageSize") Integer pageSize,
-                         @QueryParam("chunkOffset") Long chunkOffset,
-                         @QueryParam("chunkSize") Integer chunkSize) {
-
-        Map<String, Object> criteria = new HashMap<String, Object>();
-
-        // criteria map is used to build where clause
-        if (StringUtils.isNotEmpty(searchString)) {
-            // with field names and values for equal : ie. put(field,value)
-            criteria.put("categoryId", new Pair<String, String>("like", "'%" + searchString + "%'"));
-            // else a Pair is required to provide the expected operator (eg.
-            // "like") : ie. put(field, Pair(operator,value))
-            criteria.put("name", new Pair<String, String>("like", "'%" + searchString + "%'"));
-        }
-
-        // use pages
-        if (pageIndex != null && pageSize != null) {
-            Range range = Range.rangeFromPageInfo(pageIndex, pageSize);
-            Result<CategoryRepresentation> result = categoryRepresentationFinder.findAllCategory(range, criteria);
-
-            PaginatedView<CategoryRepresentation> paginatedView = new PaginatedView<CategoryRepresentation>(result, pageSize, pageIndex);
-            return Response.ok(paginatedView).build();
-        }
-
-        // or use chunks
-        if (chunkOffset != null && chunkSize != null) {
-            Range range = Range.rangeFromChunkInfo(chunkOffset, chunkSize);
-            Result<CategoryRepresentation> result = categoryRepresentationFinder.findAllCategory(range, criteria);
-
-            ChunkedView<CategoryRepresentation> chunkedView = new ChunkedView<CategoryRepresentation>(result, chunkOffset, chunkSize);
-            return Response.ok(chunkedView).build();
-        }
-
-        return Response.ok(categoryRepresentationFinder.findAllCategory()).build();
+    @Inject
+    public CategoryResource(CategoryRepresentationFinder categoryRepresentationFinder, ProductRepresentationFinder productRepresentationFinder, Repository<Category, Long> categoryRepository, FluentAssembler fluentAssembler) {
+        this.categoryRepresentationFinder = categoryRepresentationFinder;
+        this.productRepresentationFinder = productRepresentationFinder;
+        this.categoryRepository = categoryRepository;
+        this.fluentAssembler = fluentAssembler;
     }
 
-    /**
-     * Gets the products of a specific category
-     *
-     * @param categoryId the category id
-     * @return the paginated list of products by category
-     */
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response listCategories(@QueryParam("searchString") String searchString, @BeanParam Paging paging) {
+        Result<CategoryRepresentation> result = categoryRepresentationFinder.find(
+                Range.rangeFromPageInfo(paging.getPageIndex(), paging.getPageSize()),
+                searchString
+        );
+        return Response.ok(new PaginatedView<>(result, paging.getPageSize(), paging.getPageIndex())).build();
+    }
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{categoryId}/products")
-    public Response listProductByCategory(@PathParam("categoryId") Long categoryId,
-                                          @DefaultValue("0") @QueryParam("pageIndex") int pageIndex,
-                                          @DefaultValue("10") @QueryParam("pageSize") int pageSize) {
-
-        Map<String, Object> criteria = new HashMap<String, Object>();
-
-        if (categoryId != null) {
-            criteria.put("categoryId", categoryId); // add a criteria to filter on categories
-        }
-
-        Result<ProductRepresentation> result = productRepresentationFinder.findAllProducts(Range.rangeFromPageInfo(pageIndex, pageSize), criteria);
-        PaginatedView<ProductRepresentation> paginatedView = new PaginatedView<ProductRepresentation>(result, pageSize, pageIndex);
-
-        return Response.ok(paginatedView).build();
+    public Response listProductByCategory(@PathParam("categoryId") long categoryId, @BeanParam Paging paging) {
+        Result<ProductRepresentation> result = productRepresentationFinder.findProductsFromCategory(Range.rangeFromPageInfo(paging.getPageIndex(), paging.getPageSize()), categoryId);
+        return Response.ok(new PaginatedView<>(result, paging.getPageSize(), paging.getPageIndex())).build();
     }
 
-    /**
-     * Creates a category
-     *
-     * @param categoryRepresentation the category representation
-     * @return the created category
-     */
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response add(CategoryRepresentation categoryRepresentation) {
+    public Response createCategory(CategoryRepresentation categoryRepresentation) {
         Category category = fluentAssembler.merge(categoryRepresentation).with(MODEL_MAPPER).into(Category.class).fromFactory();
-        categoryRepository.persistCategory(category);
 
-        CategoryRepresentation categoryRepresentation1;
-        categoryRepresentation1 = fluentAssembler.assemble(category).with(MODEL_MAPPER).to(CategoryRepresentation.class);
+        categoryRepository.persist(category);
 
-        return Response.created(URI.create(uriInfo.getRequestUri() + "/" + category.getEntityId())).entity(categoryRepresentation1).build();
+        return Response.created(URI.create(uriInfo.getRequestUri() + "/" + category.getEntityId()))
+                .entity(fluentAssembler.assemble(category).with(MODEL_MAPPER).to(CategoryRepresentation.class))
+                .build();
     }
 
-    /**
-     * Updates a category.
-     *
-     * @param categoryRepresentation the category representation
-     * @param categoryId             the category id
-     * @return the updated category or 400 if the request was malformed or 404 if the category doesn't exist
-     */
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/{categoryId}")
-    public Response update(CategoryRepresentation categoryRepresentation, @PathParam("categoryId") long categoryId) {
-        if (categoryRepresentation.getId() != categoryId) { // bad request: the ids don't match
-            return Response.status(Response.Status.BAD_REQUEST).type(MediaType.TEXT_PLAIN_TYPE).entity("Category identifier cannot be updated").build();
+    public Response updateCategory(CategoryRepresentation categoryRepresentation, @PathParam("categoryId") long categoryId) {
+        if (categoryRepresentation.getId() != categoryId) {
+            throw new BadRequestException("Category identifiers from body and URL don't match");
         }
 
         Category category;
         try {
             category = fluentAssembler.merge(categoryRepresentation).with(MODEL_MAPPER).into(Category.class).fromRepository().orFail();
         } catch (AggregateNotFoundException e) {
-            return Response.status(Response.Status.NOT_FOUND).build();
+            throw new NotFoundException("Category " + categoryId + " not found");
         }
-        category = categoryRepository.saveCategory(category);
+        categoryRepository.save(category);
 
-        if (category == null) {
-            return Response.status(Response.Status.NOT_MODIFIED).build();
-        }
-
-        CategoryRepresentation categoryRepresentation1 = fluentAssembler.assemble(category).with(MODEL_MAPPER).to(CategoryRepresentation.class);
-        return Response.ok(categoryRepresentation1).build();
+        return Response.ok(fluentAssembler.assemble(category).with(MODEL_MAPPER).to(CategoryRepresentation.class)).build();
     }
 
-    /**
-     * Deletes a category.
-     *
-     * @param categoryId the category id
-     * @return ok or 404 if the category doesn't exist
-     */
     @DELETE
     @Path("/{categoryId}")
     public Response deleteCategory(@PathParam("categoryId") long categoryId) {
         Category category = categoryRepository.load(categoryId);
-
-        if (category != null) {
-            categoryRepository.delete(category);
-        } else { // can't delete a nonexistent category
-            Response.status(Response.Status.NOT_FOUND).build();
+        if (category == null) {
+            throw new NotFoundException("Category " + categoryId + " not found");
         }
+
+        categoryRepository.delete(category);
 
         return Response.ok().build();
     }
