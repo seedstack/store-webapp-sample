@@ -10,8 +10,8 @@ package org.seedstack.samples.store.infrastructure.jpa;
 import org.seedstack.business.finder.BaseRangeFinder;
 import org.seedstack.business.finder.Range;
 import org.seedstack.samples.store.domain.model.category.Category;
-import org.seedstack.samples.store.rest.category.CategoryRepresentation;
-import org.seedstack.samples.store.rest.category.CategoryRepresentationFinder;
+import org.seedstack.samples.store.interfaces.rest.category.CategoryRepresentation;
+import org.seedstack.samples.store.interfaces.rest.category.CategoryRepresentationFinder;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;

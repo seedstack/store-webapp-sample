@@ -10,8 +10,8 @@ package org.seedstack.samples.store.infrastructure.jpa;
 import org.seedstack.business.finder.BaseRangeFinder;
 import org.seedstack.business.finder.Range;
 import org.seedstack.samples.store.domain.model.customer.Customer;
-import org.seedstack.samples.store.rest.customer.CustomerRepresentation;
-import org.seedstack.samples.store.rest.customer.CustomerRepresentationFinder;
+import org.seedstack.samples.store.interfaces.rest.customer.CustomerRepresentation;
+import org.seedstack.samples.store.interfaces.rest.customer.CustomerRepresentationFinder;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;

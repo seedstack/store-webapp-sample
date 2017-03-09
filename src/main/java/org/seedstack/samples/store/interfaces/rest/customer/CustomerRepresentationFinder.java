@@ -5,10 +5,10 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package org.seedstack.samples.store.rest.category;
+package org.seedstack.samples.store.interfaces.rest.customer;
 
 import org.seedstack.business.finder.RangeFinder;
 
-public interface CategoryRepresentationFinder extends RangeFinder<CategoryRepresentation, String> {
+public interface CustomerRepresentationFinder extends RangeFinder<CustomerRepresentation, String> {
 
 }
