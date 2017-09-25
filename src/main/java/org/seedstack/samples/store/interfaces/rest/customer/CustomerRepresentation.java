@@ -1,16 +1,17 @@
 /**
  * Copyright (c) 2013-2016, The SeedStack authors <http://seedstack.org>
- *
- * This Source Code Form is subject to the terms of the Mozilla Public
- * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ * <p>
+ * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of
+ * the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
+
 package org.seedstack.samples.store.interfaces.rest.customer;
 
-import org.seedstack.business.assembler.MatchingEntityId;
-import org.seedstack.business.assembler.MatchingFactoryParameter;
+import org.seedstack.business.assembler.AggregateId;
+import org.seedstack.business.assembler.FactoryArgument;
 
 public class CustomerRepresentation {
+
     private String id;
     private String firstName;
     private String lastName;
@@ -20,7 +21,8 @@ public class CustomerRepresentation {
     public CustomerRepresentation() {
     }
 
-    public CustomerRepresentation(String id, String firstName, String lastName, String address, String deliveryAddress) {
+    public CustomerRepresentation(String id, String firstName, String lastName, String address,
+            String deliveryAddress) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -28,8 +30,8 @@ public class CustomerRepresentation {
         this.deliveryAddress = deliveryAddress;
     }
 
-    @MatchingEntityId
-    @MatchingFactoryParameter(index = 0)
+    @AggregateId
+    @FactoryArgument(index = 0)
     public String getId() {
         return id;
     }

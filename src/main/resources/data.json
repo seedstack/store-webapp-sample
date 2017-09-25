@@ -1,6 +1,20 @@
 [
   {
     "group": "store",
+    "name": "customers",
+    "items": [
+      {
+        "id": "robert.smith@email.com",
+        "firstName": "Robert",
+        "lastName": "SMITH",
+        "address": "7407 Beech Street Hollis, NY 11423",
+        "deliveryAddress": "7407 Beech Street Hollis, NY 11423",
+        "password": "robbie"
+      }
+    ]
+  },
+  {
+    "group": "store",
     "name": "categories",
     "items": [
       {

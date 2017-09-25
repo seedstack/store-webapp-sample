@@ -29,14 +29,14 @@ define([
             },
 
             allPaginatedProducts: function (pageIndex, pageSize, success, error) {
-                return Product.query({pageIndex: pageIndex - 1, pageSize: pageSize}, success, error);
+                return Product.query({pageIndex: pageIndex, pageSize: pageSize}, success, error);
             },
 
             searchPaginatedProducts: function (categoryId, searchString, pageIndex, pageSize, success, error) {
                 return Product.query({
                     categoryId: categoryId,
                     searchString: searchString,
-                    pageIndex: pageIndex - 1,
+                    pageIndex: pageIndex,
                     pageSize: pageSize
                 }, success, error);
             },
@@ -107,7 +107,7 @@ define([
 
         function getProductsSuccess(data) {
             $scope.paginatedProducts = data;
-            $scope.pagination.totalServerItems = $scope.paginatedProducts.$viewInfo.resultSize;
+            $scope.pagination.totalServerItems = $scope.paginatedProducts.$viewInfo.totalSize;
             if ($scope.paginatedProducts.length) {
                 $scope.activeProduct = $scope.paginatedProducts[0];
             }

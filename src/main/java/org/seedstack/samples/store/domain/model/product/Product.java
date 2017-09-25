@@ -1,24 +1,23 @@
 /**
  * Copyright (c) 2013-2016, The SeedStack authors <http://seedstack.org>
- *
- * This Source Code Form is subject to the terms of the Mozilla Public
- * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ * <p>
+ * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of
+ * the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package org.seedstack.samples.store.domain.model.product;
 
-import org.seedstack.business.domain.BaseAggregateRoot;
-import org.seedstack.business.domain.Identity;
-import org.seedstack.business.test.identity.InMemorySequenceHandler;
+package org.seedstack.samples.store.domain.model.product;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import org.seedstack.business.domain.BaseAggregateRoot;
+import org.seedstack.business.domain.Identity;
+import org.seedstack.business.util.inmemory.InMemorySequenceGenerator;
 
 @Entity
 public class Product extends BaseAggregateRoot<Long> {
     @Id
-    @Identity(handler = InMemorySequenceHandler.class)
+    @Identity(generator = InMemorySequenceGenerator.class)
     private Long id;
     private String designation;
     @Column(length = 500)
@@ -30,16 +29,17 @@ public class Product extends BaseAggregateRoot<Long> {
     private Long categoryId;
 
     private Product() {
-        // for JPA
+        // A private constructor ensures that the product is created through its
+        // factory so the identity generator is invoked just after creation
     }
 
-    Product(long id) {
-        // used by the default factory only
-        this.id = id;
-    }
-
+    @Override
     public Long getId() {
         return id;
+    }
+
+    public Product(long id) {
+        this.id = id;
     }
 
     public String getDesignation() {
@@ -88,10 +88,5 @@ public class Product extends BaseAggregateRoot<Long> {
 
     public void setCategoryId(long categoryId) {
         this.categoryId = categoryId;
-    }
-
-    @Override
-    public Long getEntityId() {
-        return id;
     }
 }

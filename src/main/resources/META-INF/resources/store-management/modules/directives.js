@@ -7,9 +7,10 @@
  */
 define([
     'require',
+    '{lodash}/lodash',
     '{angular}/angular',
     '[text]!{store-management}/templates/navbar.html'
-], function (require, angular, navbarTemplate) {
+], function (require, _, angular, navbarTemplate) {
     'use strict';
 
     var seedStoreDirectives = angular.module('storeManagementDirectives', []);
@@ -20,6 +21,20 @@ define([
             template: navbarTemplate,
             replace: true
         };
+    }]);
+
+    seedStoreDirectives.config(['$httpProvider', function ($httpProvider) {
+        $httpProvider.defaults.transformResponse.push(function (data) {
+          if (typeof data.totalSize !== 'undefined' && typeof data.items !== 'undefined' && data.items instanceof Array) {
+              var prototype = Object.getPrototypeOf(data.items);
+
+              prototype.$viewInfo = _.extend({}, data);
+              delete prototype.$viewInfo.items;
+
+              return data.items;
+          }
+          return data;
+        });
     }]);
 
     return {

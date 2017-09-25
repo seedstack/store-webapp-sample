@@ -50,3 +50,5 @@ classes:
             model:
               jpaUnit: store
               defaultRepository: org.seedstack.jpa.Jpa
+          interfaces:
+            defaultAssembler: org.seedstack.business.modelmapper.ModelMapper

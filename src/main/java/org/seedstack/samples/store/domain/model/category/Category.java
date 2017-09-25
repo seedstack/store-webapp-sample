@@ -1,42 +1,34 @@
 /**
  * Copyright (c) 2013-2016, The SeedStack authors <http://seedstack.org>
- *
- * This Source Code Form is subject to the terms of the Mozilla Public
- * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ * <p>
+ * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of
+ * the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package org.seedstack.samples.store.domain.model.category;
 
-import org.seedstack.business.domain.BaseAggregateRoot;
-import org.seedstack.business.domain.Identity;
-import org.seedstack.business.test.identity.InMemorySequenceHandler;
+package org.seedstack.samples.store.domain.model.category;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import org.seedstack.business.domain.BaseAggregateRoot;
+import org.seedstack.business.domain.Identity;
+import org.seedstack.business.util.inmemory.InMemorySequenceGenerator;
 
 @Entity
 public class Category extends BaseAggregateRoot<Long> {
     @Id
-    @Identity(handler = InMemorySequenceHandler.class)
+    @Identity(generator = InMemorySequenceGenerator.class)
     private Long id;
     private String name;
     private String urlImg;
 
     private Category() {
-        // for JPA
+        // A private constructor ensures that the category is created through its
+        // factory so the identity generator is invoked just after creation
     }
 
-    Category(long id) {
-        // used by the default factory
-        this.id = id;
-    }
-
-    public long getId() {
+    @Override
+    public Long getId() {
         return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -53,10 +45,5 @@ public class Category extends BaseAggregateRoot<Long> {
 
     public void setUrlImg(String urlImg) {
         this.urlImg = urlImg;
-    }
-
-    @Override
-    public Long getEntityId() {
-        return id;
     }
 }

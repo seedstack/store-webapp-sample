@@ -1,25 +1,19 @@
 /**
  * Copyright (c) 2013-2016, The SeedStack authors <http://seedstack.org>
- *
- * This Source Code Form is subject to the terms of the Mozilla Public
- * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ * <p>
+ * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of
+ * the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
+
 package org.seedstack.samples.store.interfaces.rest.product;
 
-import org.seedstack.business.assembler.FluentAssembler;
-import org.seedstack.business.assembler.dsl.AggregateNotFoundException;
-import org.seedstack.business.domain.Repository;
-import org.seedstack.business.finder.Range;
-import org.seedstack.business.view.PaginatedView;
-import org.seedstack.jpa.JpaUnit;
-import org.seedstack.samples.store.domain.model.product.Product;
-import org.seedstack.samples.store.interfaces.rest.Paging;
-import org.seedstack.seed.transaction.Transactional;
-
+import com.google.common.base.Strings;
+import java.net.URI;
+import java.net.URISyntaxException;
 import javax.inject.Inject;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.BeanParam;
+import javax.ws.rs.ClientErrorException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -33,61 +27,87 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
-import java.net.URI;
-import java.net.URISyntaxException;
-
-import static org.seedstack.business.assembler.AssemblerTypes.MODEL_MAPPER;
+import org.seedstack.business.assembler.dsl.FluentAssembler;
+import org.seedstack.business.domain.AggregateExistsException;
+import org.seedstack.business.domain.AggregateNotFoundException;
+import org.seedstack.business.domain.Repository;
+import org.seedstack.business.pagination.Page;
+import org.seedstack.business.pagination.dsl.Paginator;
+import org.seedstack.business.specification.Specification;
+import org.seedstack.business.specification.dsl.SpecificationBuilder;
+import org.seedstack.jpa.JpaUnit;
+import org.seedstack.samples.store.domain.model.product.Product;
+import org.seedstack.samples.store.interfaces.rest.Paging;
+import org.seedstack.seed.transaction.Transactional;
 
 @Path("/products")
 @Transactional
 @JpaUnit("store")
 public class ProductsResource {
-    private final ProductRepresentationFinder productRepresentationFinder;
-    private final FluentAssembler fluentAssembler;
-    private final Repository<Product, Long> productRepository;
+    @Inject
+    private Repository<Product, Long> productRepository;
+    @Inject
+    private FluentAssembler fluentAssembler;
+    @Inject
+    private SpecificationBuilder specificationBuilder;
+    @Inject
+    private Paginator paginator;
     @Context
     private UriInfo uriInfo;
 
-    @Inject
-    public ProductsResource(ProductRepresentationFinder productRepresentationFinder, FluentAssembler fluentAssembler, Repository<Product, Long> productRepository) {
-        this.productRepresentationFinder = productRepresentationFinder;
-        this.fluentAssembler = fluentAssembler;
-        this.productRepository = productRepository;
-    }
-
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response listProducts(@QueryParam("searchString") String searchString, @BeanParam Paging paging) {
-        return Response.ok(new PaginatedView<>(
-                productRepresentationFinder.findProducts(Range.rangeFromPageInfo(paging.getPageIndex(), paging.getPageSize()), searchString),
-                paging.getPageSize(),
-                paging.getPageIndex())
-        ).build();
+    public Page<ProductRepresentation> listProducts(@QueryParam("searchString") String searchString,
+            @BeanParam Paging paging) {
+        return fluentAssembler.assemble(paginator.paginate(productRepository)
+                .byPage(paging.getPageIndex())
+                .ofSize(paging.getPageSize())
+                .matching(buildFilteringSpecification(searchString)))
+                .toPageOf(ProductRepresentation.class);
+    }
+
+    private Specification<Product> buildFilteringSpecification(String searchString) {
+        if (!Strings.isNullOrEmpty(searchString)) {
+            return specificationBuilder.of(Product.class)
+                    .property("designation").matching("*" + searchString + "*")
+                    .or()
+                    .property("summary").matching("*" + searchString + "*")
+                    .build();
+        } else {
+            return specificationBuilder.of(Product.class)
+                    .all()
+                    .build();
+        }
     }
 
     @GET
     @Path("/{productId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getProduct(@PathParam("productId") long productId) {
-        Product product = productRepository.load(productId);
-        if (product == null) {
-            return Response.status(Status.NOT_FOUND).build();
-        }
-        return Response.ok(fluentAssembler.assemble(product).with(MODEL_MAPPER).to(ProductRepresentation.class)).build();
+    public ProductRepresentation getProduct(@PathParam("productId") long productId) {
+        return fluentAssembler.assemble(productRepository.get(productId)
+                .orElseThrow(() -> new NotFoundException("Customer " + productId + " not found")))
+                .to(ProductRepresentation.class);
     }
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response createProduct(ProductRepresentation productRepresentation) throws URISyntaxException {
-        Product product = fluentAssembler.merge(productRepresentation).with(MODEL_MAPPER).into(Product.class).fromFactory();
+    public Response createProduct(ProductRepresentation productRepresentation)
+            throws URISyntaxException {
+        Product product = fluentAssembler.merge(productRepresentation)
+                .into(Product.class)
+                .fromFactory();
 
-        productRepository.persist(product);
+        try {
+            productRepository.add(product);
+        } catch (AggregateExistsException e) {
+            throw new ClientErrorException("Customer " + productRepresentation.getId() + " already exists", 409);
+        }
 
-        return Response.created(URI.create(uriInfo.getRequestUri().toString() + "/" + product.getEntityId()))
-                .entity(fluentAssembler.assemble(product).with(MODEL_MAPPER).to(ProductRepresentation.class))
+        return Response
+                .created(URI.create(uriInfo.getRequestUri().toString() + "/" + product.getId()))
+                .entity(fluentAssembler.assemble(product).to(ProductRepresentation.class))
                 .build();
     }
 
@@ -95,33 +115,33 @@ public class ProductsResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/{productId}")
-    public Response updateProduct(ProductRepresentation productRepresentation, @PathParam("productId") long productId) {
+    public ProductRepresentation updateProduct(ProductRepresentation productRepresentation,
+            @PathParam("productId") long productId) {
         if (productRepresentation.getId() != productId) {
             throw new BadRequestException("Product identifiers from body and URL don't match");
         }
 
         Product product;
         try {
-            product = fluentAssembler.merge(productRepresentation).with(MODEL_MAPPER).into(Product.class).fromRepository().orFail();
+            product = fluentAssembler.merge(productRepresentation)
+                    .into(Product.class)
+                    .fromRepository()
+                    .orFail();
         } catch (AggregateNotFoundException e) {
             throw new NotFoundException("Product " + productId + " not found");
         }
-        product = productRepository.save(product);
+        productRepository.update(product);
 
-        return Response.ok(fluentAssembler.assemble(product).with(MODEL_MAPPER).to(ProductRepresentation.class))
-                .build();
+        return fluentAssembler.assemble(product).to(ProductRepresentation.class);
     }
 
     @DELETE
     @Path("/{productId}")
-    public Response deleteProduct(@PathParam("productId") long productId) {
-        Product product = productRepository.load(productId);
-        if (product == null) {
-            throw new NotFoundException("Product " + productId + " not found");
+    public void deleteProduct(@PathParam("productId") long productId) {
+        try {
+            productRepository.remove(productId);
+        } catch (AggregateNotFoundException e) {
+            throw new NotFoundException("Product " + productId + " not found", e);
         }
-
-        productRepository.delete(product);
-
-        return Response.status(Status.OK).build();
     }
 }
