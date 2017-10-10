@@ -10,7 +10,7 @@ package org.seedstack.samples.store.interfaces.rest.customer;
 
 import org.seedstack.business.assembler.FluentAssembler;
 import org.seedstack.business.assembler.dsl.AggregateNotFoundException;
-import org.seedstack.business.domain.Repository;
+import org.seedstack.business.domain.LegacyRepository;
 import org.seedstack.business.finder.Range;
 import org.seedstack.business.finder.Result;
 import org.seedstack.business.view.PaginatedView;
@@ -48,12 +48,12 @@ import java.net.URISyntaxException;
 public class CustomersResource {
     private final CustomerRepresentationFinder customerRepresentationFinder;
     private final FluentAssembler fluentAssembler;
-    private final Repository<Customer, CustomerId> customerRepository;
+    private final LegacyRepository<Customer, CustomerId> customerRepository;
     @Context
     private UriInfo uriInfo;
 
     @Inject
-    public CustomersResource(CustomerRepresentationFinder customerRepresentationFinder, FluentAssembler fluentAssembler, Repository<Customer, CustomerId> customerRepository) {
+    public CustomersResource(CustomerRepresentationFinder customerRepresentationFinder, FluentAssembler fluentAssembler, LegacyRepository<Customer, CustomerId> customerRepository) {
         this.customerRepresentationFinder = customerRepresentationFinder;
         this.fluentAssembler = fluentAssembler;
         this.customerRepository = customerRepository;

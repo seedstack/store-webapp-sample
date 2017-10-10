@@ -7,17 +7,17 @@
  */
 package org.seedstack.samples.store.domain.model.category;
 
-import org.seedstack.business.domain.BaseAggregateRoot;
+import org.seedstack.business.domain.LegacyBaseAggregateRoot;
 import org.seedstack.business.domain.Identity;
-import org.seedstack.business.test.identity.InMemorySequenceHandler;
+import org.seedstack.business.util.inmemory.InMemorySequenceGenerator;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity
-public class Category extends BaseAggregateRoot<Long> {
+public class Category extends LegacyBaseAggregateRoot<Long> {
     @Id
-    @Identity(handler = InMemorySequenceHandler.class)
+    @Identity(generator = InMemorySequenceGenerator.class)
     private Long id;
     private String name;
     private String urlImg;
@@ -31,7 +31,7 @@ public class Category extends BaseAggregateRoot<Long> {
         this.id = id;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 

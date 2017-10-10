@@ -74,7 +74,7 @@
             <dependency>
                 <groupId>org.seedstack</groupId>
                 <artifactId>seedstack-bom</artifactId>
-                <version>17.4</version>
+                <version>17.11-SNAPSHOT</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -94,6 +94,10 @@
         <dependency>
             <groupId>org.seedstack.business</groupId>
             <artifactId>business-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.seedstack.business</groupId>
+            <artifactId>business-migrate</artifactId>
         </dependency>
         <dependency>
             <groupId>org.seedstack.addons.swagger</groupId>
@@ -145,4 +149,18 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <repositories>
+        <repository>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <id>ojo-libs-snapshot</id>
+            <name>ojo-snapshots</name>
+            <url>https://oss.jfrog.org/artifactory/libs-snapshot</url>
+        </repository>
+    </repositories>
 </project>

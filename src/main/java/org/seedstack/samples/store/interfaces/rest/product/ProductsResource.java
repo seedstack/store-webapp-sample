@@ -9,7 +9,7 @@ package org.seedstack.samples.store.interfaces.rest.product;
 
 import org.seedstack.business.assembler.FluentAssembler;
 import org.seedstack.business.assembler.dsl.AggregateNotFoundException;
-import org.seedstack.business.domain.Repository;
+import org.seedstack.business.domain.LegacyRepository;
 import org.seedstack.business.finder.Range;
 import org.seedstack.business.view.PaginatedView;
 import org.seedstack.jpa.JpaUnit;
@@ -46,12 +46,12 @@ import static org.seedstack.business.assembler.AssemblerTypes.MODEL_MAPPER;
 public class ProductsResource {
     private final ProductRepresentationFinder productRepresentationFinder;
     private final FluentAssembler fluentAssembler;
-    private final Repository<Product, Long> productRepository;
+    private final LegacyRepository<Product, Long> productRepository;
     @Context
     private UriInfo uriInfo;
 
     @Inject
-    public ProductsResource(ProductRepresentationFinder productRepresentationFinder, FluentAssembler fluentAssembler, Repository<Product, Long> productRepository) {
+    public ProductsResource(ProductRepresentationFinder productRepresentationFinder, FluentAssembler fluentAssembler, LegacyRepository<Product, Long> productRepository) {
         this.productRepresentationFinder = productRepresentationFinder;
         this.fluentAssembler = fluentAssembler;
         this.productRepository = productRepository;

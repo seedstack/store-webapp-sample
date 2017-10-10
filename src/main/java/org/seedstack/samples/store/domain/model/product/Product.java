@@ -7,18 +7,18 @@
  */
 package org.seedstack.samples.store.domain.model.product;
 
-import org.seedstack.business.domain.BaseAggregateRoot;
+import org.seedstack.business.domain.LegacyBaseAggregateRoot;
 import org.seedstack.business.domain.Identity;
-import org.seedstack.business.test.identity.InMemorySequenceHandler;
+import org.seedstack.business.util.inmemory.InMemorySequenceGenerator;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity
-public class Product extends BaseAggregateRoot<Long> {
+public class Product extends LegacyBaseAggregateRoot<Long> {
     @Id
-    @Identity(handler = InMemorySequenceHandler.class)
+    @Identity(generator = InMemorySequenceGenerator.class)
     private Long id;
     private String designation;
     @Column(length = 500)

@@ -7,13 +7,13 @@
  */
 package org.seedstack.samples.store.domain.model.customer;
 
-import org.seedstack.business.domain.BaseAggregateRoot;
+import org.seedstack.business.domain.LegacyBaseAggregateRoot;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 
 @Entity
-public class Customer extends BaseAggregateRoot<CustomerId> {
+public class Customer extends LegacyBaseAggregateRoot<CustomerId> {
     @EmbeddedId
     private CustomerId id;
     private String firstName;

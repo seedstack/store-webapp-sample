@@ -9,7 +9,7 @@ package org.seedstack.samples.store.interfaces.rest.category;
 
 import org.seedstack.business.assembler.FluentAssembler;
 import org.seedstack.business.assembler.dsl.AggregateNotFoundException;
-import org.seedstack.business.domain.Repository;
+import org.seedstack.business.domain.LegacyRepository;
 import org.seedstack.business.finder.Range;
 import org.seedstack.business.finder.Result;
 import org.seedstack.business.view.PaginatedView;
@@ -48,13 +48,13 @@ import static org.seedstack.business.assembler.AssemblerTypes.MODEL_MAPPER;
 public class CategoryResource {
     private final CategoryRepresentationFinder categoryRepresentationFinder;
     private final ProductRepresentationFinder productRepresentationFinder;
-    private final Repository<Category, Long> categoryRepository;
+    private final LegacyRepository<Category, Long> categoryRepository;
     private final FluentAssembler fluentAssembler;
     @Context
     private UriInfo uriInfo;
 
     @Inject
-    public CategoryResource(CategoryRepresentationFinder categoryRepresentationFinder, ProductRepresentationFinder productRepresentationFinder, Repository<Category, Long> categoryRepository, FluentAssembler fluentAssembler) {
+    public CategoryResource(CategoryRepresentationFinder categoryRepresentationFinder, ProductRepresentationFinder productRepresentationFinder, LegacyRepository<Category, Long> categoryRepository, FluentAssembler fluentAssembler) {
         this.categoryRepresentationFinder = categoryRepresentationFinder;
         this.productRepresentationFinder = productRepresentationFinder;
         this.categoryRepository = categoryRepository;
