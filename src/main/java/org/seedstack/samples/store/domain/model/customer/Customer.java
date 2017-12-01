@@ -1,16 +1,15 @@
 /**
  * Copyright (c) 2013-2016, The SeedStack authors <http://seedstack.org>
- *
- * This Source Code Form is subject to the terms of the Mozilla Public
- * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ * <p>
+ * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of
+ * the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package org.seedstack.samples.store.domain.model.customer;
 
-import org.seedstack.business.domain.BaseAggregateRoot;
+package org.seedstack.samples.store.domain.model.customer;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import org.seedstack.business.domain.BaseAggregateRoot;
 
 @Entity
 public class Customer extends BaseAggregateRoot<CustomerId> {
@@ -23,12 +22,17 @@ public class Customer extends BaseAggregateRoot<CustomerId> {
     private String password;
 
     private Customer() {
-        // for JPA
+        // A default constructor is needed by the persistence framework
+        // but can be kept private
     }
 
-    Customer(CustomerId customerId) {
-        // used by the factory only
+    public Customer(CustomerId customerId) {
         this.id = customerId;
+    }
+
+    @Override
+    public CustomerId getId() {
+        return id;
     }
 
     public String getFirstName() {
@@ -42,7 +46,6 @@ public class Customer extends BaseAggregateRoot<CustomerId> {
     public String getLastName() {
         return lastName;
     }
-
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
@@ -70,10 +73,5 @@ public class Customer extends BaseAggregateRoot<CustomerId> {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    @Override
-    public CustomerId getEntityId() {
-        return id;
     }
 }

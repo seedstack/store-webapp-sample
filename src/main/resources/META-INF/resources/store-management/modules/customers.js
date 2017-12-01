@@ -22,12 +22,12 @@ define([
 
         return {
             allPaginatedCustomers: function (pageIndex, pageSize, success, error) {
-                return Customer.query({pageIndex: pageIndex - 1, pageSize: pageSize}, success, error);
+                return Customer.query({pageIndex: pageIndex, pageSize: pageSize}, success, error);
             },
             searchPaginatedCustomers: function (searchString, pageIndex, pageSize, success, error) {
                 return Customer.query({
                     searchString: searchString,
-                    pageIndex: pageIndex - 1,
+                    pageIndex: pageIndex,
                     pageSize: pageSize
                 }, success, error);
             },
@@ -87,7 +87,7 @@ define([
 
         function getCustomersSuccess(data) {
             $scope.paginatedCustomers = data;
-            $scope.pagination.totalServerItems = $scope.paginatedCustomers.$viewInfo.resultSize;
+            $scope.pagination.totalServerItems = $scope.paginatedCustomers.$viewInfo.totalSize;
         }
 
         function getCustomersError(err) {

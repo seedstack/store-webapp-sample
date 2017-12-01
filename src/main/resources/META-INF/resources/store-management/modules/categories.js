@@ -30,13 +30,13 @@ define([
             },
 
             allPaginatedCategories: function (pageIndex, pageSize, success, error) {
-                return Category.query({pageIndex: pageIndex - 1, pageSize: pageSize}, success, error);
+                return Category.query({pageIndex: pageIndex, pageSize: pageSize}, success, error);
             },
 
             paginatedProductsByCategory: function (categoryId, pageIndex, pageSize, success, error) {
                 return ProductsByCategory.query({
                     categoryId: categoryId,
-                    pageIndex: pageIndex - 1,
+                    pageIndex: pageIndex,
                     pageSize: pageSize
                 }, success, error);
             },
@@ -44,7 +44,7 @@ define([
             searchPaginatedCategories: function (searchString, pageIndex, nbCat, success, error) {
                 return Category.query({
                     searchString: searchString,
-                    pageIndex: pageIndex - 1,
+                    pageIndex: pageIndex,
                     pageSize: nbCat
                 }, success, error);
             },
@@ -105,7 +105,7 @@ define([
 
         function getCategoriesSuccess(data) {
             $scope.paginatedCategories = data;
-            $scope.pagingCategories.totalServerItems = $scope.paginatedCategories.$viewInfo.resultSize;
+            $scope.pagingCategories.totalServerItems = $scope.paginatedCategories.$viewInfo.totalSize;
             if ($scope.paginatedCategories.length) {
                 if ($scope.activeCategory !== $scope.paginatedCategories[0]) {
                     $scope.setActiveCategory($scope.paginatedCategories[0]);
@@ -126,7 +126,7 @@ define([
             categoryService.paginatedProductsByCategory(categoryId, $scope.pagingProducts.currentPage, $scope.pagingProducts.pageSize,
                 function (data) {
                     $scope.paginatedProducts = data;
-                    $scope.pagingProducts.totalServerItems = $scope.paginatedProducts.$viewInfo.resultSize;
+                    $scope.pagingProducts.totalServerItems = $scope.paginatedProducts.$viewInfo.totalSize;
                 },
                 function (error) {
                     throw new Error('Could not get associated products ' + error.message);
