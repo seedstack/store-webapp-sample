@@ -74,7 +74,7 @@
             <dependency>
                 <groupId>org.seedstack</groupId>
                 <artifactId>seedstack-bom</artifactId>
-                <version>17.11.1-SNAPSHOT</version>
+                <version>17.11.2</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
