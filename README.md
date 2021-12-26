@@ -34,3 +34,4 @@ Just point your favorite browser to the base URL.
 This source code is copyrighted by [The SeedStack Authors](https://github.com/seedstack/seedstack/blob/master/AUTHORS) and
 released under the terms of the [Mozilla Public License 2.0](https://www.mozilla.org/MPL/2.0/).
 
+updated on 26th dec 2021
